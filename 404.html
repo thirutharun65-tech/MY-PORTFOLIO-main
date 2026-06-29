@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="hacker">
+<head>
+  <script>
+    (function(){var m=localStorage.getItem('mode')||'hacker';document.documentElement.setAttribute('data-mode',m);})();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 - Page Not Found | Thirumurugan C</title>
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%2300ff41'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-weight='800' font-size='18' fill='%230A0A0A'%3E%24%3C/text%3E%3C/svg%3E" />
+
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ============================================
+       404 PAGE - HACKER THEME
+       ============================================ */
+    
+    /* ----- RESET ----- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    html, body {
+      background: #0a0a0a;
+      min-height: 100vh;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      color: #d0ffd0;
+    }
+
+    /* ============================================
+       FULL SCREEN MATRIX RAIN BACKGROUND
+       ============================================ */
+    #matrixCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      display: block !important;
+      background: #0a0a0a;
+    }
+
+    /* ============================================
+       SCANLINES
+       ============================================ */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 65, 0.015) 2px,
+        rgba(0, 255, 65, 0.015) 4px
+      );
+    }
+    html[data-mode="curious"] .scanlines {
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 0, 0, 0.015) 2px,
+        rgba(255, 0, 0, 0.015) 4px
+      );
+    }
+
+    /* ============================================
+       VIGNETTE
+       ============================================ */
+    .vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.7) 100%);
+    }
+
+    /* ============================================
+       GLITCH LINE
+       ============================================ */
+    .glitch-line {
+      position: fixed;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #00ff41;
+      opacity: 0.08;
+      z-index: 1;
+      pointer-events: none;
+      animation: glitchMove 8s linear infinite;
+    }
+    @keyframes glitchMove {
+      0% { top: -2px; }
+      100% { top: 100%; }
+    }
+    html[data-mode="curious"] .glitch-line {
+      background: #ff0000;
+    }
+
+    /* ============================================
+       CONTENT - 404 PAGE
+       ============================================ */
+    .error-container {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .error-box {
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+      background: rgba(10, 10, 10, 0.92);
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      border-radius: 2px;
+      padding: 60px 50px;
+      backdrop-filter: blur(24px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    }
+    html[data-mode="curious"] .error-box {
+      border-color: rgba(255, 0, 0, 0.12);
+    }
+
+    /* ----- ERROR CODE ----- */
+    .error-code {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 120px;
+      font-weight: 900;
+      color: #00ff41;
+      line-height: 1;
+      text-shadow: 0 0 60px rgba(0, 255, 65, 0.15);
+      animation: glitchText 3s ease-in-out infinite;
+    }
+    html[data-mode="curious"] .error-code {
+      color: #ff0000;
+      text-shadow: 0 0 60px rgba(255, 0, 0, 0.15);
+    }
+
+    @keyframes glitchText {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      3% { transform: scale(1.02) rotate(-2deg) skewX(2deg); }
+      6% { transform: scale(1) rotate(0deg); }
+      9% { transform: scale(0.98) rotate(1deg) skewX(-1deg); }
+      12% { transform: scale(1) rotate(0deg); }
+    }
+
+    /* ----- 404 Badge ----- */
+    .error-badge {
+      display: inline-block;
+      padding: 4px 16px;
+      background: rgba(0, 255, 65, 0.08);
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #3a8a4a;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 16px;
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .error-badge {
+      background: rgba(255, 0, 0, 0.08);
+      border-color: rgba(255, 0, 0, 0.12);
+      color: #cc3333;
+    }
+
+    /* ----- Title ----- */
+    .error-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #d0ffd0;
+      margin-bottom: 16px;
+    }
+    html[data-mode="curious"] .error-title {
+      color: #ffcccc;
+    }
+
+    /* ----- Description ----- */
+    .error-desc {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 15px;
+      color: #80ff90;
+      line-height: 1.8;
+      margin-bottom: 8px;
+    }
+    html[data-mode="curious"] .error-desc {
+      color: #ff6666;
+    }
+
+    .error-desc .highlight {
+      color: #00ff41;
+    }
+    html[data-mode="curious"] .error-desc .highlight {
+      color: #ff0000;
+    }
+
+    /* ----- Glitch Text Effect ----- */
+    .glitch-text {
+      position: relative;
+      display: inline-block;
+    }
+    .glitch-text::before,
+    .glitch-text::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .glitch-text:hover::before {
+      animation: glitch1 0.4s ease;
+      opacity: 0.5;
+    }
+    .glitch-text:hover::after {
+      animation: glitch2 0.4s ease;
+      opacity: 0.5;
+    }
+    @keyframes glitch1 {
+      0% { transform: translate(0); opacity: 0; }
+      20% { transform: translate(-3px, 2px); opacity: 0.7; }
+      40% { transform: translate(3px, -2px); opacity: 0.3; }
+      60% { transform: translate(-2px, 1px); opacity: 0.5; }
+      80% { transform: translate(2px, -1px); opacity: 0.2; }
+      100% { transform: translate(0); opacity: 0; }
+    }
+    @keyframes glitch2 {
+      0% { transform: translate(0); opacity: 0; }
+      20% { transform: translate(4px, -3px); opacity: 0.5; }
+      40% { transform: translate(-4px, 3px); opacity: 0.2; }
+      60% { transform: translate(3px, -2px); opacity: 0.4; }
+      80% { transform: translate(-3px, 2px); opacity: 0.1; }
+      100% { transform: translate(0); opacity: 0; }
+    }
+
+    /* ----- Error Emoji ----- */
+    .error-emoji {
+      font-size: 48px;
+      margin-bottom: 12px;
+      display: block;
+      animation: floatEmoji 3s ease-in-out infinite;
+    }
+    @keyframes floatEmoji {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(-5deg); }
+    }
+
+    /* ----- Terminal Prompt ----- */
+    .terminal-prompt {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: #3a8a4a;
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(0, 255, 65, 0.06);
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .terminal-prompt {
+      color: #cc3333;
+      border-color: rgba(255, 0, 0, 0.06);
+    }
+    .terminal-prompt .prompt-symbol {
+      color: #00ff41;
+      font-weight: 700;
+    }
+    html[data-mode="curious"] .terminal-prompt .prompt-symbol {
+      color: #ff0000;
+    }
+    .terminal-prompt .cursor {
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* ----- Buttons ----- */
+    .error-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+
+    .btn-primary, .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 36px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: transparent;
+      color: #d0ffd0;
+      border-radius: 2px;
+      text-decoration: none;
+    }
+    html[data-mode="curious"] .btn-primary,
+    html[data-mode="curious"] .btn-secondary {
+      border-color: rgba(255, 0, 0, 0.12);
+      color: #ffcccc;
+    }
+
+    .btn-primary {
+      background: #00ff41;
+      color: #0a0a0a;
+      border-color: #00ff41;
+      box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
+    }
+    html[data-mode="curious"] .btn-primary {
+      background: #ff0000;
+      border-color: #ff0000;
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.1);
+      color: #0a0a0a;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 60px rgba(0, 255, 65, 0.25);
+      transform: translateY(-2px) scale(1.02);
+    }
+    html[data-mode="curious"] .btn-primary:hover {
+      box-shadow: 0 0 60px rgba(255, 0, 0, 0.25);
+    }
+
+    .btn-secondary {
+      border-color: rgba(0, 255, 65, 0.12);
+      color: #80ff90;
+    }
+    html[data-mode="curious"] .btn-secondary {
+      color: #ff6666;
+    }
+    .btn-secondary:hover {
+      border-color: #00ff41;
+      color: #00ff41;
+      transform: translateY(-2px) scale(1.02);
+    }
+    html[data-mode="curious"] .btn-secondary:hover {
+      border-color: #ff0000;
+      color: #ff0000;
+    }
+
+    .btn-glow {
+      animation: btnGlowPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes btnGlowPulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 65, 0.1); }
+      50% { box-shadow: 0 0 50px rgba(0, 255, 65, 0.2); }
+    }
+    html[data-mode="curious"] .btn-glow {
+      animation-name: btnGlowPulseRed;
+    }
+    @keyframes btnGlowPulseRed {
+      0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.1); }
+      50% { box-shadow: 0 0 50px rgba(255, 0, 0, 0.2); }
+    }
+
+    .btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    /* ============================================
+       MODE SWITCHER (404 PAGE)
+       ============================================ */
+    .mode-switcher {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(10, 10, 10, 0.92);
+      padding: 8px 16px 8px 20px;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      border-radius: 2px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    }
+    html[data-mode="curious"] .mode-switcher {
+      border-color: rgba(255, 0, 0, 0.12);
+    }
+
+    .mode-switcher .mode-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #3a8a4a;
+    }
+    html[data-mode="curious"] .mode-switcher .mode-label {
+      color: #cc3333;
+    }
+
+    .mode-toggle {
+      width: 44px;
+      height: 22px;
+      border-radius: 2px;
+      position: relative;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      background: rgba(0, 255, 65, 0.04);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+    html[data-mode="curious"] .mode-toggle {
+      border-color: rgba(255, 0, 0, 0.12);
+      background: rgba(255, 0, 0, 0.04);
+    }
+
+    .mode-toggle .handle {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 2px;
+      background: #00ff41;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: #0a0a0a;
+    }
+    html[data-mode="curious"] .mode-toggle .handle {
+      background: #ff0000;
+      left: 24px;
+    }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 768px) {
+      .error-box {
+        padding: 40px 24px;
+      }
+      .error-code {
+        font-size: 80px;
+      }
+      .error-title {
+        font-size: 22px;
+      }
+      .error-desc {
+        font-size: 13px;
+      }
+      .error-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .error-actions .btn-primary,
+      .error-actions .btn-secondary {
+        justify-content: center;
+      }
+      .mode-switcher {
+        top: 12px;
+        right: 12px;
+        padding: 6px 12px 6px 16px;
+      }
+      .mode-switcher .mode-label {
+        font-size: 8px;
+      }
+      .mode-toggle {
+        width: 36px;
+        height: 18px;
+      }
+      .mode-toggle .handle {
+        width: 14px;
+        height: 14px;
+        font-size: 7px;
+      }
+      html[data-mode="curious"] .mode-toggle .handle {
+        left: 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .error-box {
+        padding: 30px 16px;
+      }
+      .error-code {
+        font-size: 60px;
+      }
+      .error-title {
+        font-size: 18px;
+      }
+      .error-desc {
+        font-size: 12px;
+      }
+      .error-emoji {
+        font-size: 36px;
+      }
+      .terminal-prompt {
+        font-size: 11px;
+        padding: 8px 12px;
+      }
+    }
+
+    /* ============================================
+       REDUCED MOTION
+       ============================================ */
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+      .error-code { animation: none !important; }
+      .error-emoji { animation: none !important; }
+      .glitch-text::before, .glitch-text::after { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== FULL SCREEN MATRIX RAIN ===== -->
+  <canvas id="matrixCanvas"></canvas>
+
+  <!-- ===== SCANLINES ===== -->
+  <div class="scanlines"></div>
+
+  <!-- ===== VIGNETTE ===== -->
+  <div class="vignette"></div>
+
+  <!-- ===== GLITCH LINE ===== -->
+  <div class="glitch-line"></div>
+
+  <!-- ===== MODE SWITCHER ===== -->
+  <div class="mode-switcher">
+    <span class="mode-label" id="modeLabel">Hacker</span>
+    <button class="mode-toggle" id="modeToggle" aria-label="Toggle mode">
+      <span class="handle">$</span>
+    </button>
+  </div>
+
+  <!-- ===== 404 CONTENT ===== -->
+  <div class="error-container">
+    <div class="error-box">
+
+      <div class="error-badge">HTTP 404</div>
+
+      <span class="error-emoji">💻</span>
+
+      <div class="error-code glitch-text" data-text="404">404</div>
+
+      <h1 class="error-title">Page Not Found</h1>
+
+      <p class="error-desc">
+        The page you're looking for doesn't exist or has been moved.
+        <br />
+        <span class="highlight">// Maybe it got lost in the matrix?</span>
+      </p>
+
+      <!-- Terminal Prompt -->
+      <div class="terminal-prompt">
+        <span class="prompt-symbol">$</span>
+        <span>cd /home &amp;&amp; ./go-back</span>
+        <span class="cursor">█</span>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="error-actions">
+        <a href="index.html" class="btn-primary btn-glow">
+          <svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9" stroke="currentColor" stroke-width="2" fill="none"/><path d="M5 10v8a2 2 0 002 2h10a2 2 0 002-2v-8" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          Go Home
+        </a>
+        <a href="index.html#projects" class="btn-secondary">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          View Projects
+        </a>
+        <a href="index.html#contact" class="btn-secondary">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          Contact Me
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- SCRIPTS -->
+  <!-- ============================================ -->
+
+  <!-- ===== MATRIX RAIN ===== -->
+  <script>
+    (function() {
+      'use strict';
+      
+      var canvas = document.getElementById('matrixCanvas');
+      if (!canvas) return;
+      
+      var ctx = canvas.getContext('2d');
+      var W, H;
+      var fontSize = 14;
+      var columns = [];
+      var drops = [];
+      
+      var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$#@%&*()_+{}|:<>?~';
+      
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+        columns = Math.floor(W / fontSize);
+        drops = [];
+        for (var i = 0; i < columns; i++) {
+          drops[i] = Math.floor(Math.random() * -200);
+        }
+      }
+      
+      function getColor() {
+        var mode = document.documentElement.getAttribute('data-mode') || 'hacker';
+        return mode === 'curious' ? '#ff0000' : '#00ff41';
+      }
+      
+      function draw() {
+        ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+        ctx.fillRect(0, 0, W, H);
+        
+        var color = getColor();
+        ctx.fillStyle = color;
+        ctx.font = fontSize + 'px monospace';
+        
+        for (var i = 0; i < drops.length; i++) {
+          var char = chars[Math.floor(Math.random() * chars.length)];
+          var x = i * fontSize;
+          var y = drops[i] * fontSize;
+          ctx.globalAlpha = 0.15 + Math.random() * 0.35;
+          ctx.fillText(char, x, y);
+          if (y > H && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        }
+        requestAnimationFrame(draw);
+      }
+      
+      var modeObserver = new MutationObserver(function() {});
+      modeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-mode']
+      });
+      
+      window.addEventListener('resize', resize);
+      resize();
+      draw();
+    })();
+  </script>
+
+  <!-- ===== MODE SWITCHER ===== -->
+  <script>
+    (function() {
+      var toggle = document.getElementById('modeToggle');
+      var label = document.getElementById('modeLabel');
+      var html = document.documentElement;
+
+      var saved = localStorage.getItem('mode') || 'hacker';
+      html.setAttribute('data-mode', saved);
+      label.textContent = saved.charAt(0).toUpperCase() + saved.slice(1);
+
+      toggle.addEventListener('click', function() {
+        var current = html.getAttribute('data-mode');
+        var next = current === 'hacker' ? 'curious' : 'hacker';
+        html.setAttribute('data-mode', next);
+        localStorage.setItem('mode', next);
+        label.textContent = next.charAt(0).toUpperCase() + next.slice(1);
+      });
+    })();
+  </script>
+
+</body>
+</html>

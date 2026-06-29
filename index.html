@@ -1,0 +1,2894 @@
+<!DOCTYPE html>
+<html lang="en" data-mode="hacker">
+<head>
+  <script>
+    (function(){var m=localStorage.getItem('mode')||'hacker';document.documentElement.setAttribute('data-mode',m);})();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thirumurugan C | student Portfolio</title>
+  <meta name="description" content="Thirumurugan C — Computer Science Engineer & Developer" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%2300ff41'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-weight='800' font-size='18' fill='%230A0A0A'%3E%24%3C/text%3E%3C/svg%3E" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== RESET ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      background: #0a0a0a;
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
+      color: #d0ffd0;
+    }
+
+    /* ============================================
+       FULL SCREEN MATRIX RAIN BACKGROUND
+       ============================================ */
+    #matrixCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      display: block !important;
+      background: #0a0a0a;
+    }
+
+    /* ============================================
+       SCANLINES
+       ============================================ */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 65, 0.015) 2px,
+        rgba(0, 255, 65, 0.015) 4px
+      );
+    }
+    html[data-mode="curious"] .scanlines {
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 0, 0, 0.015) 2px,
+        rgba(255, 0, 0, 0.015) 4px
+      );
+    }
+
+    /* ============================================
+       VIGNETTE
+       ============================================ */
+    .vignette {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.7) 100%);
+    }
+
+    /* ============================================
+       GLITCH LINE
+       ============================================ */
+    .glitch-line {
+      position: fixed;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: #00ff41;
+      opacity: 0.08;
+      z-index: 1;
+      pointer-events: none;
+      animation: glitchMove 8s linear infinite;
+    }
+    @keyframes glitchMove {
+      0% { top: -2px; }
+      100% { top: 100%; }
+    }
+    html[data-mode="curious"] .glitch-line {
+      background: #ff0000;
+    }
+
+    /* ============================================
+       BACKGROUND ICONS (DOODLES)
+       ============================================ */
+    .bg-icons-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-icon {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      animation: floatIcon 20s ease-in-out infinite;
+      opacity: 0.15;
+    }
+
+    .bg-icon svg {
+      width: 100%;
+      height: 100%;
+      stroke: #00ff41;
+      stroke-width: 2;
+      fill: none;
+      filter: drop-shadow(0 0 10px rgba(0, 255, 65, 0.1));
+    }
+    html[data-mode="curious"] .bg-icon svg {
+      stroke: #ff0000;
+      filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.15));
+    }
+
+    .bg-icon:nth-child(1) { top: 5%; left: 3%; animation-delay: 0s; width: 80px; height: 80px; opacity: 0.2; }
+    .bg-icon:nth-child(2) { top: 12%; right: 5%; animation-delay: -2s; width: 70px; height: 70px; opacity: 0.15; }
+    .bg-icon:nth-child(3) { bottom: 20%; left: 3%; animation-delay: -4s; width: 90px; height: 90px; opacity: 0.2; }
+    .bg-icon:nth-child(4) { bottom: 10%; right: 5%; animation-delay: -6s; width: 65px; height: 65px; opacity: 0.15; }
+    .bg-icon:nth-child(5) { top: 45%; left: 45%; animation-delay: -8s; width: 75px; height: 75px; opacity: 0.15; }
+    .bg-icon:nth-child(6) { top: 30%; left: 15%; animation-delay: -10s; width: 60px; height: 60px; opacity: 0.12; }
+    .bg-icon:nth-child(7) { bottom: 40%; right: 10%; animation-delay: -12s; width: 70px; height: 70px; opacity: 0.15; }
+    .bg-icon:nth-child(8) { top: 65%; left: 8%; animation-delay: -14s; width: 55px; height: 55px; opacity: 0.12; }
+    .bg-icon:nth-child(9) { top: 8%; left: 30%; animation-delay: -16s; width: 50px; height: 50px; opacity: 0.12; }
+    .bg-icon:nth-child(10) { bottom: 15%; left: 25%; animation-delay: -18s; width: 60px; height: 60px; opacity: 0.2; }
+
+    html[data-mode="curious"] .bg-icon {
+      opacity: 0.2;
+    }
+
+    @keyframes floatIcon {
+      0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+      25% { transform: translate(30px, -40px) rotate(12deg) scale(1.1); }
+      50% { transform: translate(-20px, 25px) rotate(-8deg) scale(0.95); }
+      75% { transform: translate(35px, 20px) rotate(6deg) scale(1.05); }
+    }
+
+    /* ============================================
+       CONTENT
+       ============================================ */
+    #mainContent {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ============================================
+       LOADING SCREEN
+       ============================================ */
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      background: #0a0a0a;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s ease;
+    }
+    .loading-screen.hidden { opacity: 0; pointer-events: none; }
+    .loading-inner { text-align: center; }
+    .load-logo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 3rem;
+      color: #00ff41;
+      margin-bottom: 16px;
+      text-shadow: 0 0 60px rgba(0, 255, 65, 0.15);
+    }
+    html[data-mode="curious"] .load-logo { color: #ff0000; }
+    .load-pct {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: #3a8a4a;
+      margin-top: 8px;
+    }
+    html[data-mode="curious"] .load-pct { color: #cc3333; }
+    .loading-bar {
+      width: 200px;
+      height: 2px;
+      background: rgba(0, 255, 65, 0.1);
+      margin: 16px auto;
+      overflow: hidden;
+    }
+    html[data-mode="curious"] .loading-bar { background: rgba(255, 0, 0, 0.1); }
+    .loading-progress {
+      width: 0%;
+      height: 100%;
+      background: #00ff41;
+      animation: loadProgress 2s ease forwards;
+    }
+    html[data-mode="curious"] .loading-progress { background: #ff0000; }
+    @keyframes loadProgress {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+
+    /* ============================================
+       SCROLLBAR
+       ============================================ */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #0a0a0a; }
+    ::-webkit-scrollbar-thumb { background: #00ff41; border-radius: 2px; }
+    html[data-mode="curious"] ::-webkit-scrollbar-thumb { background: #ff0000; }
+
+    /* ============================================
+       CONTAINER
+       ============================================ */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    /* ============================================
+       BUTTONS
+       ============================================ */
+    .btn-primary, .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 32px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: pointer;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: transparent;
+      color: #d0ffd0;
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .btn-primary,
+    html[data-mode="curious"] .btn-secondary {
+      border-color: rgba(255, 0, 0, 0.12);
+      color: #ffcccc;
+    }
+    .btn-primary {
+      background: #00ff41;
+      color: #0a0a0a;
+      border-color: #00ff41;
+      box-shadow: 0 0 30px rgba(0, 255, 65, 0.1);
+    }
+    html[data-mode="curious"] .btn-primary {
+      background: #ff0000;
+      border-color: #ff0000;
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.1);
+      color: #0a0a0a;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 60px rgba(0, 255, 65, 0.25);
+      transform: translateY(-2px) scale(1.02);
+    }
+    html[data-mode="curious"] .btn-primary:hover {
+      box-shadow: 0 0 60px rgba(255, 0, 0, 0.25);
+    }
+    .btn-secondary { border-color: rgba(0, 255, 65, 0.12); color: #80ff90; }
+    html[data-mode="curious"] .btn-secondary { color: #ff6666; }
+    .btn-secondary:hover {
+      border-color: #00ff41;
+      color: #00ff41;
+      transform: translateY(-2px) scale(1.02);
+    }
+    html[data-mode="curious"] .btn-secondary:hover {
+      border-color: #ff0000;
+      color: #ff0000;
+    }
+    .btn-glow { animation: btnGlowPulse 2.5s ease-in-out infinite; }
+    @keyframes btnGlowPulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 65, 0.1); }
+      50% { box-shadow: 0 0 50px rgba(0, 255, 65, 0.2); }
+    }
+    html[data-mode="curious"] .btn-glow {
+      animation-name: btnGlowPulseRed;
+    }
+    @keyframes btnGlowPulseRed {
+      0%, 100% { box-shadow: 0 0 20px rgba(255, 0, 0, 0.1); }
+      50% { box-shadow: 0 0 50px rgba(255, 0, 0, 0.2); }
+    }
+    .btn-pulse { animation: btnPulse 2s ease-in-out infinite; }
+    @keyframes btnPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+    .btn-resume-download {
+      background: #00ff41 !important;
+      color: #0a0a0a !important;
+      border-color: #00ff41 !important;
+    }
+    html[data-mode="curious"] .btn-resume-download {
+      background: #ff0000 !important;
+      border-color: #ff0000 !important;
+    }
+
+    /* ============================================
+       HEADER
+       ============================================ */
+    .header {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+      padding: 8px 0;
+      background: rgba(10, 10, 10, 0.92);
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      border-radius: 2px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+      width: calc(100% - 32px);
+      max-width: 1200px;
+      transition: all 0.3s ease;
+    }
+    html[data-mode="curious"] .header {
+      border-color: rgba(255, 0, 0, 0.12);
+    }
+    .header.scrolled { border-color: rgba(0, 255, 65, 0.3); }
+    html[data-mode="curious"] .header.scrolled { border-color: rgba(255, 0, 0, 0.3); }
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #00ff41;
+      text-decoration: none;
+    }
+    html[data-mode="curious"] .header-logo { color: #ff0000; }
+    .logo-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      background: #00ff41;
+      color: #0a0a0a;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 800;
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .logo-mark { background: #ff0000; }
+    .logo-text span { color: #00ff41; }
+    html[data-mode="curious"] .logo-text span { color: #ff0000; }
+    .header-nav ul {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+    }
+    .nav-link {
+      display: block;
+      padding: 4px 12px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #3a8a4a;
+      transition: all 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+    }
+    html[data-mode="curious"] .nav-link { color: #cc3333; }
+    .nav-link::before { content: '>'; opacity: 0; margin-right: 4px; transition: opacity 0.2s ease; color: #00ff41; }
+    html[data-mode="curious"] .nav-link::before { color: #ff0000; }
+    .nav-link:hover::before, .nav-link.active::before { opacity: 1; }
+    .nav-link:hover { color: #00ff41; }
+    html[data-mode="curious"] .nav-link:hover { color: #ff0000; }
+    .nav-link.active { color: #00ff41; background: rgba(0, 255, 65, 0.04); }
+    html[data-mode="curious"] .nav-link.active { color: #ff0000; background: rgba(255, 0, 0, 0.04); }
+    .header-actions { display: flex; align-items: center; gap: 12px; }
+    .header-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      padding: 8px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    .header-toggle span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: #d0ffd0;
+      border-radius: 1px;
+      transition: all 0.2s ease;
+    }
+    html[data-mode="curious"] .header-toggle span { background: #ff6666; }
+    .header-toggle.open span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+    .header-toggle.open span:nth-child(2) { opacity: 0; }
+    .header-toggle.open span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+
+    /* ============================================
+       MODE TOGGLE
+       ============================================ */
+    .mode-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .mode-track {
+      width: 44px;
+      height: 22px;
+      border-radius: 2px;
+      position: relative;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      background: rgba(0, 255, 65, 0.04);
+      transition: all 0.3s ease;
+    }
+    html[data-mode="curious"] .mode-track {
+      border-color: rgba(255, 0, 0, 0.12);
+      background: rgba(255, 0, 0, 0.04);
+    }
+    .mode-handle {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 2px;
+      background: #00ff41;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: #0a0a0a;
+    }
+    html[data-mode="curious"] .mode-handle {
+      background: #ff0000;
+      left: 24px;
+    }
+    .mode-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #3a8a4a;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    html[data-mode="curious"] .mode-label { color: #cc3333; }
+
+    /* ============================================
+       HERO
+       ============================================ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .hero-text { display: flex; flex-direction: column; gap: 16px; }
+    .hero-prompt {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: #3a8a4a;
+      letter-spacing: 0.05em;
+    }
+    html[data-mode="curious"] .hero-prompt { color: #cc3333; }
+    .hero-prompt .cursor-blink { animation: blink 1s step-end infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    .hero-name { display: flex; flex-direction: column; line-height: 1; }
+    .name-first {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 56px;
+      font-weight: 800;
+      color: #d0ffd0;
+      letter-spacing: -0.02em;
+    }
+    html[data-mode="curious"] .name-first { color: #ffcccc; }
+    .name-last {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 56px;
+      font-weight: 800;
+      color: #00ff41;
+      letter-spacing: -0.02em;
+      text-shadow: 0 0 40px rgba(0, 255, 65, 0.15);
+    }
+    html[data-mode="curious"] .name-last {
+      color: #ff0000;
+      text-shadow: 0 0 40px rgba(255, 0, 0, 0.15);
+    }
+    .hero-typewriter {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      color: #80ff90;
+      min-height: 1.8em;
+    }
+    html[data-mode="curious"] .hero-typewriter { color: #ff6666; }
+    .hero-typewriter::after { content: '█'; animation: blink 1s step-end infinite; color: #00ff41; }
+    html[data-mode="curious"] .hero-typewriter::after { color: #ff0000; }
+    .hero-tagline {
+      font-size: 16px;
+      color: #80ff90;
+      max-width: 460px;
+      line-height: 1.7;
+      padding-left: 16px;
+      border-left: 2px solid #00ff41;
+      opacity: 0.7;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    html[data-mode="curious"] .hero-tagline {
+      color: #ff6666;
+      border-left-color: #ff0000;
+    }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 16px; }
+    .hero-social {
+      display: flex;
+      gap: 24px;
+      margin-top: 24px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(0, 255, 65, 0.12);
+    }
+    html[data-mode="curious"] .hero-social {
+      border-top-color: rgba(255, 0, 0, 0.12);
+    }
+    .hero-social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #3a8a4a;
+      text-decoration: none;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      transition: all 0.3s ease;
+      padding: 4px 8px;
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .hero-social-link { color: #cc3333; }
+    .hero-social-link svg { width: 18px; height: 18px; stroke: #3a8a4a; transition: all 0.3s ease; }
+    html[data-mode="curious"] .hero-social-link svg { stroke: #cc3333; }
+    .hero-social-link:hover { color: #00ff41; }
+    html[data-mode="curious"] .hero-social-link:hover { color: #ff0000; }
+    .hero-social-link:hover svg { stroke: #00ff41; }
+    html[data-mode="curious"] .hero-social-link:hover svg { stroke: #ff0000; }
+    .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; }
+    .hero-image-frame {
+      position: relative;
+      width: 400px;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      padding: 8px;
+      background: #0f0f0f;
+      box-shadow: 0 0 60px rgba(0, 255, 65, 0.04);
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .hero-image-frame {
+      border-color: rgba(255, 0, 0, 0.12);
+      box-shadow: 0 0 60px rgba(255, 0, 0, 0.04);
+    }
+    .hero-image-frame::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border: 1px solid #00ff41;
+      opacity: 0.05;
+      border-radius: 2px;
+      animation: borderPulse 3s ease-in-out infinite;
+    }
+    html[data-mode="curious"] .hero-image-frame::before {
+      border-color: #ff0000;
+    }
+    @keyframes borderPulse { 0%, 100% { opacity: 0.05; } 50% { opacity: 0.2; } }
+    .hero-glow {
+      position: absolute;
+      inset: -20px;
+      background: radial-gradient(circle, rgba(0, 255, 65, 0.06), transparent 70%);
+      animation: glowPulse 4s ease-in-out infinite;
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .hero-glow {
+      background: radial-gradient(circle, rgba(255, 0, 0, 0.06), transparent 70%);
+    }
+    @keyframes glowPulse { 0%, 100% { opacity: 0.3; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.05); } }
+    .hero-portrait-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      position: relative;
+      z-index: 1;
+      animation: floatAnim 6s ease-in-out infinite;
+      filter: grayscale(0.3) contrast(1.1);
+    }
+    @keyframes floatAnim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    .glitch-text { position: relative; }
+    .glitch-text::before, .glitch-text::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+    }
+    .glitch-text:hover::before { animation: glitch1 0.4s ease; opacity: 0.5; }
+    .glitch-text:hover::after { animation: glitch2 0.4s ease; opacity: 0.5; }
+    @keyframes glitch1 {
+      0% { transform: translate(0); opacity: 0; }
+      20% { transform: translate(-3px, 2px); opacity: 0.7; }
+      40% { transform: translate(3px, -2px); opacity: 0.3; }
+      60% { transform: translate(-2px, 1px); opacity: 0.5; }
+      80% { transform: translate(2px, -1px); opacity: 0.2; }
+      100% { transform: translate(0); opacity: 0; }
+    }
+    @keyframes glitch2 {
+      0% { transform: translate(0); opacity: 0; }
+      20% { transform: translate(4px, -3px); opacity: 0.5; }
+      40% { transform: translate(-4px, 3px); opacity: 0.2; }
+      60% { transform: translate(3px, -2px); opacity: 0.4; }
+      80% { transform: translate(-3px, 2px); opacity: 0.1; }
+      100% { transform: translate(0); opacity: 0; }
+    }
+
+    /* ============================================
+       STATS
+       ============================================ */
+    .stats-bar {
+      position: relative;
+      z-index: 2;
+      padding: 24px 0;
+      background: #0f0f0f;
+      border-top: 1px solid rgba(0, 255, 65, 0.12);
+      border-bottom: 1px solid rgba(0, 255, 65, 0.12);
+    }
+    html[data-mode="curious"] .stats-bar {
+      border-top-color: rgba(255, 0, 0, 0.12);
+      border-bottom-color: rgba(255, 0, 0, 0.12);
+    }
+    .stats-grid {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .stats-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .stats-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 32px;
+      font-weight: 700;
+      color: #00ff41;
+    }
+    html[data-mode="curious"] .stats-number { color: #ff0000; }
+    .stats-label {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #3a8a4a;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    html[data-mode="curious"] .stats-label { color: #cc3333; }
+    .stats-divider { width: 1px; height: 30px; background: rgba(0, 255, 65, 0.12); }
+    html[data-mode="curious"] .stats-divider { background: rgba(255, 0, 0, 0.12); }
+
+    /* ============================================
+       SECTIONS
+       ============================================ */
+    section {
+      padding: 64px 0;
+      border-top: 1px solid rgba(0, 255, 65, 0.12);
+      position: relative;
+      z-index: 2;
+      background: transparent;
+    }
+    html[data-mode="curious"] section {
+      border-top-color: rgba(255, 0, 0, 0.12);
+    }
+    section:first-of-type { border-top: none; }
+    .section-header { margin-bottom: 48px; position: relative; }
+    .section-header::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background: #00ff41;
+    }
+    html[data-mode="curious"] .section-header::after { background: #ff0000; }
+    .section-tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #3a8a4a;
+      margin-bottom: 8px;
+      position: relative;
+      padding-left: 16px;
+    }
+    html[data-mode="curious"] .section-tag { color: #cc3333; }
+    .section-tag::before { content: '>'; position: absolute; left: 0; color: #00ff41; }
+    html[data-mode="curious"] .section-tag::before { color: #ff0000; }
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .section-title .highlight { color: #00ff41; }
+    html[data-mode="curious"] .section-title .highlight { color: #ff0000; }
+    .section-desc {
+      font-size: 16px;
+      color: #80ff90;
+      max-width: 500px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    html[data-mode="curious"] .section-desc { color: #ff6666; }
+
+    /* ============================================
+       ABOUT
+       ============================================ */
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .about-text p {
+      color: #80ff90;
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 16px;
+      font-family: 'Inter', sans-serif;
+    }
+    html[data-mode="curious"] .about-text p { color: #ff6666; }
+    .about-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .about-detail-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      color: #80ff90;
+    }
+    html[data-mode="curious"] .about-detail-item { color: #ff6666; }
+    .about-detail-item svg { width: 18px; height: 18px; stroke: #00ff41; fill: none; stroke-width: 1.8; }
+    html[data-mode="curious"] .about-detail-item svg { stroke: #ff0000; }
+    .about-image-frame {
+      position: relative;
+      width: 400px;
+      height: 500px;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      background: #0f0f0f;
+      overflow: hidden;
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .about-image-frame {
+      border-color: rgba(255, 0, 0, 0.12);
+    }
+    .about-image-frame .glow {
+      position: absolute;
+      inset: -20px;
+      background: radial-gradient(circle at 50% 30%, rgba(0, 255, 65, 0.06), transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+    html[data-mode="curious"] .about-image-frame .glow {
+      background: radial-gradient(circle at 50% 30%, rgba(255, 0, 0, 0.06), transparent 70%);
+    }
+    .about-image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: relative;
+      z-index: 2;
+      transition: transform 0.6s ease;
+      filter: grayscale(0.2);
+    }
+
+    /* ============================================
+       PROJECTS
+       ============================================ */
+    .projects-carousel-wrap { position: relative; margin: 0 -24px; padding: 0 24px; }
+    .projects-carousel {
+      overflow-x: auto;
+      overflow-y: hidden;
+      border-radius: 2px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .projects-carousel::-webkit-scrollbar { display: none; }
+    .carousel-track { display: flex; }
+    .project-card {
+      flex: 0 0 100%;
+      min-width: 100%;
+      scroll-snap-align: start;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      background: #0f0f0f;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      overflow: hidden;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .project-card {
+      border-color: rgba(255, 0, 0, 0.12);
+    }
+    .project-card:hover { border-color: rgba(0, 255, 65, 0.3); transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8); }
+    html[data-mode="curious"] .project-card:hover { border-color: rgba(255, 0, 0, 0.3); }
+    .project-image { position: relative; overflow: hidden; background: #0a0a0a; }
+    .project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      min-height: 300px;
+      transition: transform 0.5s ease;
+      filter: grayscale(0.4) contrast(1.05);
+    }
+    .project-card:hover .project-image img { transform: scale(1.06); filter: grayscale(0.1) contrast(1.1); }
+    .project-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .project-card:hover .project-image-overlay { opacity: 1; }
+    .view-label {
+      color: #00ff41;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border: 1px solid #00ff41;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    html[data-mode="curious"] .view-label {
+      color: #ff0000;
+      border-color: #ff0000;
+    }
+    .project-featured-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 4px 12px;
+      background: #00ff41;
+      color: #0a0a0a;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-radius: 2px;
+      z-index: 2;
+    }
+    html[data-mode="curious"] .project-featured-badge {
+      background: #ff0000;
+    }
+    .project-info { padding: 24px; display: flex; flex-direction: column; justify-content: center; gap: 12px; }
+    .project-info h3 { font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 700; color: #d0ffd0; }
+    html[data-mode="curious"] .project-info h3 { color: #ffcccc; }
+    .project-info .project-desc { color: #80ff90; font-size: 14px; line-height: 1.7; font-family: 'Inter', sans-serif; }
+    html[data-mode="curious"] .project-info .project-desc { color: #ff6666; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .project-tags span {
+      padding: 4px 12px;
+      background: rgba(0, 255, 65, 0.04);
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #3a8a4a;
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .project-tags span {
+      background: rgba(255, 0, 0, 0.04);
+      border-color: rgba(255, 0, 0, 0.12);
+      color: #cc3333;
+    }
+    .project-actions { display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap; }
+    .project-actions .btn-primary, .project-actions .btn-secondary { padding: 8px 20px; font-size: 11px; border-radius: 2px; }
+
+    /* ============================================
+       CAROUSEL
+       ============================================ */
+    .carousel-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 24px;
+    }
+    .carousel-btn {
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      background: #0f0f0f;
+      color: #3a8a4a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .carousel-btn {
+      border-color: rgba(255, 0, 0, 0.12);
+      color: #cc3333;
+    }
+    .carousel-btn:hover { border-color: #00ff41; color: #00ff41; background: rgba(0, 255, 65, 0.04); }
+    html[data-mode="curious"] .carousel-btn:hover {
+      border-color: #ff0000;
+      color: #ff0000;
+      background: rgba(255, 0, 0, 0.04);
+    }
+    .carousel-btn svg { width: 20px; height: 20px; stroke: currentColor; }
+    .carousel-dots { display: flex; gap: 8px; }
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      padding: 0;
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .carousel-dot {
+      border-color: rgba(255, 0, 0, 0.12);
+    }
+    .carousel-dot.active { background: #00ff41; border-color: #00ff41; width: 24px; }
+    html[data-mode="curious"] .carousel-dot.active {
+      background: #ff0000;
+      border-color: #ff0000;
+    }
+
+    /* ============================================
+       SKILLS
+       ============================================ */
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .skill-group {
+      background: #0f0f0f;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      padding: 20px;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .skill-group {
+      border-color: rgba(255, 0, 0, 0.12);
+    }
+    .skill-group:hover { border-color: rgba(0, 255, 65, 0.3); transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8); }
+    html[data-mode="curious"] .skill-group:hover { border-color: rgba(255, 0, 0, 0.3); }
+    .skill-group h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #00ff41;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(0, 255, 65, 0.12);
+    }
+    html[data-mode="curious"] .skill-group h4 {
+      color: #ff0000;
+      border-bottom-color: rgba(255, 0, 0, 0.12);
+    }
+    .skill-group .items { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 8px; }
+    .skill-tile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 8px;
+      background: rgba(0, 255, 65, 0.02);
+      border: 1px solid rgba(0, 255, 65, 0.06);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      cursor: default;
+      min-height: 80px;
+    }
+    html[data-mode="curious"] .skill-tile {
+      background: rgba(255, 0, 0, 0.02);
+      border-color: rgba(255, 0, 0, 0.06);
+    }
+    .skill-tile:hover { border-color: #00ff41; background: rgba(0, 255, 65, 0.04); transform: translateY(-4px); }
+    html[data-mode="curious"] .skill-tile:hover {
+      border-color: #ff0000;
+      background: rgba(255, 0, 0, 0.04);
+    }
+    .skill-tile img { width: 32px; height: 32px; object-fit: contain; transition: transform 0.3s ease; filter: grayscale(0.3); }
+    .skill-tile:hover img { transform: scale(1.15); filter: grayscale(0); }
+    .skill-tile-letter {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: #00ff41;
+      background: rgba(0, 255, 65, 0.06);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    html[data-mode="curious"] .skill-tile-letter {
+      color: #ff0000;
+      background: rgba(255, 0, 0, 0.06);
+    }
+    .skill-tile:hover .skill-tile-letter { background: #00ff41; color: #0a0a0a; }
+    html[data-mode="curious"] .skill-tile:hover .skill-tile-letter {
+      background: #ff0000;
+      color: #0a0a0a;
+    }
+    .skill-tile-name {
+      font-size: 11px;
+      font-weight: 500;
+      color: #3a8a4a;
+      text-align: center;
+      line-height: 1.2;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    html[data-mode="curious"] .skill-tile-name { color: #cc3333; }
+    .skill-tile:hover .skill-tile-name { color: #80ff90; }
+    html[data-mode="curious"] .skill-tile:hover .skill-tile-name { color: #ff6666; }
+
+    /* ============================================
+       CERTIFICATES
+       ============================================ */
+    .cert-scroll-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .cert-arrow {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(0, 255, 65, 0.2);
+      background: #0f0f0f;
+      color: #3a8a4a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+    .cert-arrow:hover { border-color: #00ff41; color: #00ff41; background: rgba(0,255,65,0.04); }
+    html[data-mode="curious"] .cert-arrow { border-color: rgba(255,0,0,0.2); color: #cc3333; }
+    html[data-mode="curious"] .cert-arrow:hover { border-color: #ff0000; color: #ff0000; }
+    .cert-stack {
+      flex: 1;
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 16px 8px;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+    }
+    .cert-stack::-webkit-scrollbar { height: 4px; }
+    .cert-stack::-webkit-scrollbar-thumb { background: rgba(0, 255, 65, 0.12); border-radius: 2px; }
+    html[data-mode="curious"] .cert-stack::-webkit-scrollbar-thumb { background: rgba(255, 0, 0, 0.12); }
+    .cert-card {
+      flex: 0 0 260px;
+      scroll-snap-align: start;
+      background: #0f0f0f;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      border-radius: 2px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    html[data-mode="curious"] .cert-card {
+      border-color: rgba(255, 0, 0, 0.12);
+    }
+    .cert-card:hover { transform: translateY(-6px); border-color: rgba(0, 255, 65, 0.3); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8); }
+    html[data-mode="curious"] .cert-card:hover { border-color: rgba(255, 0, 0, 0.3); }
+    .cert-card img { width: 100%; aspect-ratio: 16/10; object-fit: cover; display: block; filter: grayscale(0.3); transition: filter 0.3s ease; }
+    .cert-card:hover img { filter: grayscale(0); }
+    .cert-card .info { padding: 12px 16px; }
+    .cert-card .info h4 { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600; margin-bottom: 2px; color: #d0ffd0; }
+    html[data-mode="curious"] .cert-card .info h4 { color: #ffcccc; }
+    .cert-card .info p { font-size: 11px; color: #3a8a4a; font-family: 'JetBrains Mono', monospace; }
+    html[data-mode="curious"] .cert-card .info p { color: #cc3333; }
+    .cert-card .info .cat {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 2px 8px;
+      background: rgba(0, 255, 65, 0.04);
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: #3a8a4a;
+      border-radius: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    html[data-mode="curious"] .cert-card .info .cat {
+      background: rgba(255, 0, 0, 0.04);
+      border-color: rgba(255, 0, 0, 0.12);
+      color: #cc3333;
+    }
+
+    /* ============================================
+       BEYOND
+       ============================================ */
+    .beyond-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .beyond-item {
+      background: #0f0f0f;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      padding: 24px;
+      text-align: left;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+      position: relative;
+    }
+    html[data-mode="curious"] .beyond-item {
+      border-color: rgba(255, 0, 0, 0.12);
+    }
+    .beyond-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #00ff41;
+      opacity: 0.2;
+      transition: opacity 0.3s ease;
+    }
+    html[data-mode="curious"] .beyond-item::before { background: #ff0000; }
+    .beyond-item:hover::before { opacity: 1; }
+    .beyond-item:hover { border-color: rgba(0, 255, 65, 0.3); transform: translateY(-6px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8); }
+    html[data-mode="curious"] .beyond-item:hover { border-color: rgba(255, 0, 0, 0.3); }
+    .beyond-icon-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      color: #00ff41;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+      background: rgba(0, 255, 65, 0.02);
+    }
+    html[data-mode="curious"] .beyond-icon-wrap {
+      border-color: rgba(255, 0, 0, 0.12);
+      color: #ff0000;
+      background: rgba(255, 0, 0, 0.02);
+    }
+    .beyond-item:hover .beyond-icon-wrap { background: #00ff41; color: #0a0a0a; transform: scale(1.08); }
+    html[data-mode="curious"] .beyond-item:hover .beyond-icon-wrap {
+      background: #ff0000;
+      color: #0a0a0a;
+    }
+    .beyond-icon-wrap svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .beyond-item h3 { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .beyond-item p { color: #80ff90; font-size: 14px; line-height: 1.6; font-family: 'Inter', sans-serif; }
+    html[data-mode="curious"] .beyond-item p { color: #ff6666; }
+
+    /* ============================================
+       CONTACT
+       ============================================ */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 48px; align-items: start; margin-top: 32px; }
+    .contact-info { display: flex; flex-direction: column; gap: 16px; }
+    .contact-info-card {
+      background: #0f0f0f;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      padding: 16px;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.3s ease;
+    }
+    html[data-mode="curious"] .contact-info-card {
+      border-color: rgba(255, 0, 0, 0.12);
+    }
+    .contact-info-card:hover { border-color: rgba(0, 255, 65, 0.3); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8); }
+    html[data-mode="curious"] .contact-info-card:hover { border-color: rgba(255, 0, 0, 0.3); }
+    .info-icon-wrap {
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      color: #00ff41;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+      background: rgba(0, 255, 65, 0.02);
+    }
+    html[data-mode="curious"] .info-icon-wrap {
+      border-color: rgba(255, 0, 0, 0.12);
+      color: #ff0000;
+      background: rgba(255, 0, 0, 0.02);
+    }
+    .contact-info-card:hover .info-icon-wrap { background: #00ff41; color: #0a0a0a; }
+    html[data-mode="curious"] .contact-info-card:hover .info-icon-wrap {
+      background: #ff0000;
+      color: #0a0a0a;
+    }
+    .info-icon-wrap svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
+    .info-details h3 { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #3a8a4a; margin-bottom: 4px; font-weight: 600; }
+    html[data-mode="curious"] .info-details h3 { color: #cc3333; }
+    .info-details p { font-size: 16px; color: #d0ffd0; font-weight: 500; }
+    html[data-mode="curious"] .info-details p { color: #ffcccc; }
+    .info-details p a { color: #d0ffd0; text-decoration: none; transition: color 0.3s ease; }
+    html[data-mode="curious"] .info-details p a { color: #ffcccc; }
+    .info-details p a:hover { color: #00ff41; }
+    html[data-mode="curious"] .info-details p a:hover { color: #ff0000; }
+    .contact-social-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+    .contact-social-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 2px;
+      color: #3a8a4a;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      background: #0a0a0a;
+    }
+    html[data-mode="curious"] .contact-social-links a {
+      color: #cc3333;
+      border-color: rgba(255, 0, 0, 0.12);
+    }
+    .contact-social-links a svg { width: 14px; height: 14px; stroke: currentColor; }
+    .contact-social-links a:hover { color: #00ff41; border-color: #00ff41; transform: translateY(-2px); }
+    html[data-mode="curious"] .contact-social-links a:hover {
+      color: #ff0000;
+      border-color: #ff0000;
+    }
+    .contact-form-container {
+      background: #0f0f0f;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      padding: 32px;
+      border-radius: 2px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    }
+    html[data-mode="curious"] .contact-form-container {
+      border-color: rgba(255, 0, 0, 0.12);
+    }
+    .contact-form { display: flex; flex-direction: column; gap: 16px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #3a8a4a; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+    html[data-mode="curious"] .form-group label { color: #cc3333; }
+    .form-group input, .form-group textarea {
+      background: #0a0a0a;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      padding: 12px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 16px;
+      color: #d0ffd0;
+      transition: all 0.3s ease;
+      width: 100%;
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .form-group input, html[data-mode="curious"] .form-group textarea {
+      border-color: rgba(255, 0, 0, 0.12);
+      color: #ffcccc;
+    }
+    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: #00ff41; box-shadow: 0 0 20px rgba(0, 255, 65, 0.04); }
+    html[data-mode="curious"] .form-group input:focus, html[data-mode="curious"] .form-group textarea:focus {
+      border-color: #ff0000;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.04);
+    }
+    .form-group input::placeholder, .form-group textarea::placeholder { color: #3a8a4a; }
+    html[data-mode="curious"] .form-group input::placeholder, html[data-mode="curious"] .form-group textarea::placeholder { color: #cc3333; }
+    .form-error { font-size: 11px; color: #ff4444; font-family: 'JetBrains Mono', monospace; min-height: 1.5rem; }
+    .form-status { font-size: 14px; font-family: 'JetBrains Mono', monospace; min-height: 2rem; color: #00ff41; }
+    html[data-mode="curious"] .form-status { color: #ff0000; }
+
+    /* ============================================
+       RESUME
+       ============================================ */
+    .resume-actions { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 32px; }
+    .resume-actions .btn-primary, .resume-actions .btn-secondary { padding: 12px 28px; font-size: 14px; }
+    .resume-actions svg { width: 18px; height: 18px; }
+    .resume-preview {
+      background: #0f0f0f;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      border-radius: 2px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    html[data-mode="curious"] .resume-preview {
+      border-color: rgba(255, 0, 0, 0.12);
+    }
+    .resume-preview-embed { width: 100%; height: auto; display: block; min-height: 400px; border: none; }
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+    .footer {
+      background: #0f0f0f;
+      border-top: 1px solid rgba(0, 255, 65, 0.12);
+      padding: 48px 0 24px;
+      margin-top: 32px;
+      position: relative;
+      z-index: 2;
+    }
+    html[data-mode="curious"] .footer {
+      border-top-color: rgba(255, 0, 0, 0.12);
+    }
+    .footer-container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .footer-shell {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 8px 16px;
+      background: #0a0a0a;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      border-radius: 2px;
+      margin-bottom: 32px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    html[data-mode="curious"] .footer-shell {
+      border-color: rgba(255, 0, 0, 0.12);
+    }
+    .shell-prompt { color: #00ff41; }
+    html[data-mode="curious"] .shell-prompt { color: #ff0000; }
+    .shell-path { color: #80ff90; }
+    html[data-mode="curious"] .shell-path { color: #ff6666; }
+    .shell-dollar { color: #00ff41; font-weight: 700; }
+    html[data-mode="curious"] .shell-dollar { color: #ff0000; }
+    .shell-cmd { color: #3a8a4a; }
+    html[data-mode="curious"] .shell-cmd { color: #cc3333; }
+    .footer-body { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; padding-bottom: 32px; border-bottom: 1px solid rgba(0, 255, 65, 0.12); }
+    html[data-mode="curious"] .footer-body { border-bottom-color: rgba(255, 0, 0, 0.12); }
+    .footer-brand { display: flex; align-items: flex-start; gap: 16px; }
+    .footer-avatar {
+      width: 48px;
+      height: 48px;
+      overflow: hidden;
+      border: 1px solid #00ff41;
+      flex-shrink: 0;
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .footer-avatar { border-color: #ff0000; }
+    .footer-avatar img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.3); }
+    .footer-brand-text h3 { font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .footer-brand-text h3 span { color: #00ff41; }
+    html[data-mode="curious"] .footer-brand-text h3 span { color: #ff0000; }
+    .footer-brand-text p { color: #80ff90; font-size: 14px; line-height: 1.5; font-family: 'Inter', sans-serif; }
+    html[data-mode="curious"] .footer-brand-text p { color: #ff6666; }
+    .footer-nav h4, .footer-social h4 { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #3a8a4a; margin-bottom: 16px; }
+    html[data-mode="curious"] .footer-nav h4, html[data-mode="curious"] .footer-social h4 { color: #cc3333; }
+    .footer-nav ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-nav ul li a {
+      font-size: 14px;
+      color: #80ff90;
+      transition: color 0.3s ease;
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+    }
+    html[data-mode="curious"] .footer-nav ul li a { color: #ff6666; }
+    .footer-nav ul li a::before { content: '>'; opacity: 0; margin-right: 4px; transition: opacity 0.3s ease; color: #00ff41; }
+    html[data-mode="curious"] .footer-nav ul li a::before { color: #ff0000; }
+    .footer-nav ul li a:hover { color: #00ff41; }
+    html[data-mode="curious"] .footer-nav ul li a:hover { color: #ff0000; }
+    .footer-nav ul li a:hover::before { opacity: 1; }
+    .footer-social-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .social-link {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      transition: all 0.3s ease;
+      color: #3a8a4a;
+      border-radius: 2px;
+      background: transparent;
+    }
+    html[data-mode="curious"] .social-link {
+      border-color: rgba(255, 0, 0, 0.12);
+      color: #cc3333;
+    }
+    .social-link svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .social-link:hover { border-color: #00ff41; color: #00ff41; transform: translateY(-3px); box-shadow: 0 0 30px rgba(0, 255, 65, 0.04); }
+    html[data-mode="curious"] .social-link:hover {
+      border-color: #ff0000;
+      color: #ff0000;
+    }
+    .footer-mode-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: #0a0a0a;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      border-radius: 2px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #3a8a4a;
+    }
+    html[data-mode="curious"] .footer-mode-row {
+      border-color: rgba(255, 0, 0, 0.12);
+      color: #cc3333;
+    }
+    .footer-mode-row .mode-dot { width: 6px; height: 6px; background: #00ff41; border-radius: 2px; }
+    html[data-mode="curious"] .footer-mode-row .mode-dot { background: #ff0000; }
+    .footer-mode-label { font-weight: 500; }
+    .footer-mode { margin-left: auto; font-weight: 600; color: #00ff41; }
+    html[data-mode="curious"] .footer-mode { color: #ff0000; }
+    .footer-quote-line {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 24px 0;
+      flex-wrap: wrap;
+    }
+    .quote-ornament { color: #00ff41; opacity: 0.3; flex-shrink: 0; }
+    html[data-mode="curious"] .quote-ornament { color: #ff0000; }
+    .footer-quote-text { font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #80ff90; font-style: italic; }
+    html[data-mode="curious"] .footer-quote-text { color: #ff6666; }
+    .footer-quote-author { font-family: 'Orbitron', sans-serif; font-size: 14px; color: #00ff41; font-weight: 600; margin-left: auto; }
+    html[data-mode="curious"] .footer-quote-author { color: #ff0000; }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0, 255, 65, 0.12);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    html[data-mode="curious"] .footer-bottom { border-top-color: rgba(255, 0, 0, 0.12); }
+    .footer-copy { font-size: 11px; color: #3a8a4a; font-family: 'JetBrains Mono', monospace; }
+    html[data-mode="curious"] .footer-copy { color: #cc3333; }
+    .footer-doodles {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .footer-doodles svg {
+      width: 22px;
+      height: 22px;
+      stroke: #3a8a4a;
+      stroke-width: 1.8;
+      fill: none;
+      opacity: 0.3;
+      transition: all 0.3s ease;
+      animation: footerFloat 10s ease-in-out infinite;
+    }
+    html[data-mode="curious"] .footer-doodles svg {
+      stroke: #cc3333;
+    }
+    .footer-doodles svg:hover { opacity: 0.8; stroke: #00ff41; transform: scale(1.2) rotate(10deg); }
+    html[data-mode="curious"] .footer-doodles svg:hover { stroke: #ff0000; }
+    .footer-doodles svg:nth-child(1) { animation-delay: 0s; }
+    .footer-doodles svg:nth-child(2) { animation-delay: -1s; }
+    .footer-doodles svg:nth-child(3) { animation-delay: -2s; }
+    .footer-doodles svg:nth-child(4) { animation-delay: -3s; }
+    .footer-doodles svg:nth-child(5) { animation-delay: -4s; }
+    .footer-doodles svg:nth-child(6) { animation-delay: -5s; }
+    .footer-doodles svg:nth-child(7) { animation-delay: -6s; }
+    .footer-doodles svg:nth-child(8) { animation-delay: -7s; }
+    .footer-doodles svg:nth-child(9) { animation-delay: -8s; }
+    .footer-doodles svg:nth-child(10) { animation-delay: -9s; }
+    @keyframes footerFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(8deg); }
+    }
+
+    /* ============================================
+       BACK TO TOP
+       ============================================ */
+    .back-to-top {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 50;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      background: #0f0f0f;
+      color: #3a8a4a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .back-to-top {
+      border-color: rgba(255, 0, 0, 0.12);
+      color: #cc3333;
+    }
+    .back-to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .back-to-top:hover { border-color: #00ff41; color: #00ff41; transform: translateY(-4px); box-shadow: 0 0 30px rgba(0, 255, 65, 0.04); }
+    html[data-mode="curious"] .back-to-top:hover {
+      border-color: #ff0000;
+      color: #ff0000;
+    }
+
+    /* ============================================
+       SOCIAL SIDEBAR
+       ============================================ */
+    .social-sidebar {
+      position: fixed;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 40;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: rgba(10, 10, 10, 0.92);
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      backdrop-filter: blur(20px);
+      border-radius: 2px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    }
+    html[data-mode="curious"] .social-sidebar {
+      border-color: rgba(255, 0, 0, 0.12);
+    }
+    .social-sidebar .social-avatar {
+      width: 40px;
+      height: 40px;
+      overflow: hidden;
+      border: 1px solid #00ff41;
+      border-radius: 2px;
+    }
+    html[data-mode="curious"] .social-sidebar .social-avatar {
+      border-color: #ff0000;
+    }
+    .social-sidebar .social-avatar img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.3); }
+    .social-sidebar .social-divider { width: 20px; height: 1px; background: rgba(0, 255, 65, 0.12); }
+    html[data-mode="curious"] .social-sidebar .social-divider { background: rgba(255, 0, 0, 0.12); }
+    .social-sidebar .social-links { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+    .social-sidebar .social-link-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0, 255, 65, 0.12);
+      transition: all 0.3s ease;
+      background: transparent;
+      border-radius: 2px;
+      color: #3a8a4a;
+    }
+    html[data-mode="curious"] .social-sidebar .social-link-btn {
+      border-color: rgba(255, 0, 0, 0.12);
+      color: #cc3333;
+    }
+    .social-sidebar .social-link-btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .social-sidebar .social-link-btn:hover { border-color: #00ff41; color: #00ff41; transform: scale(1.1); box-shadow: 0 0 30px rgba(0, 255, 65, 0.04); }
+    html[data-mode="curious"] .social-sidebar .social-link-btn:hover {
+      border-color: #ff0000;
+      color: #ff0000;
+    }
+    .social-sidebar .mode-dot { width: 6px; height: 6px; background: #00ff41; border-radius: 2px; }
+    html[data-mode="curious"] .social-sidebar .mode-dot { background: #ff0000; }
+    .social-sidebar .mode-text { font-family: 'JetBrains Mono', monospace; font-size: 7px; color: #3a8a4a; letter-spacing: 0.08em; text-transform: uppercase; }
+    html[data-mode="curious"] .social-sidebar .mode-text { color: #cc3333; }
+
+    /* ============================================
+       MOBILE NAV
+       ============================================ */
+    .mobile-bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10, 10, 10, 0.95);
+      border-top: 1px solid rgba(0, 255, 65, 0.12);
+      z-index: 60;
+      padding: 6px 0;
+      backdrop-filter: blur(20px);
+      justify-content: space-around;
+    }
+    html[data-mode="curious"] .mobile-bottom-nav {
+      border-top-color: rgba(255, 0, 0, 0.12);
+    }
+    .mobile-bottom-nav a {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #3a8a4a;
+      text-decoration: none;
+      gap: 2px;
+      transition: color 0.3s ease;
+      padding: 4px 8px;
+      border-radius: 2px;
+      min-width: 44px;
+      position: relative;
+    }
+    html[data-mode="curious"] .mobile-bottom-nav a { color: #cc3333; }
+    .mobile-bottom-nav a svg { width: 20px; height: 20px; stroke: #3a8a4a; fill: none; stroke-width: 1.8; transition: stroke 0.3s ease; }
+    html[data-mode="curious"] .mobile-bottom-nav a svg { stroke: #cc3333; }
+    .mobile-bottom-nav a.active svg { stroke: #00ff41; }
+    html[data-mode="curious"] .mobile-bottom-nav a.active svg { stroke: #ff0000; }
+    .mobile-bottom-nav a.active { color: #00ff41; }
+    html[data-mode="curious"] .mobile-bottom-nav a.active { color: #ff0000; }
+    .mobile-bottom-nav a.active::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 2px;
+      background: #00ff41;
+    }
+    html[data-mode="curious"] .mobile-bottom-nav a.active::before { background: #ff0000; }
+    .mobile-social-strip {
+      display: none;
+      position: fixed;
+      bottom: 60px;
+      left: 0;
+      right: 0;
+      justify-content: center;
+      gap: 16px;
+      padding: 8px 16px;
+      background: rgba(10, 10, 10, 0.9);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid rgba(0, 255, 65, 0.12);
+      z-index: 55;
+    }
+    html[data-mode="curious"] .mobile-social-strip {
+      border-top-color: rgba(255, 0, 0, 0.12);
+    }
+    .mobile-social-strip a { display: flex; align-items: center; justify-content: center; color: #3a8a4a; transition: color 0.3s ease; }
+    html[data-mode="curious"] .mobile-social-strip a { color: #cc3333; }
+    .mobile-social-strip a svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .mobile-social-strip a:hover { color: #00ff41; }
+    html[data-mode="curious"] .mobile-social-strip a:hover { color: #ff0000; }
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+    @media (max-width: 1024px) {
+      .hero-inner { grid-template-columns: 1fr !important; text-align: center; gap: 32px; }
+      .hero-visual { order: -1; }
+      .hero-image-frame { width: 320px !important; margin: 0 auto; }
+      .hero-tagline { max-width: 100% !important; margin: 0 auto; border-left: none !important; padding-left: 0 !important; }
+      .hero-actions { justify-content: center; }
+      .hero-social { justify-content: center; }
+      .name-first, .name-last { font-size: 40px !important; }
+      .beyond-grid { grid-template-columns: 1fr 1fr !important; }
+      .contact-grid { grid-template-columns: 1fr !important; }
+      .section-title { font-size: 32px; }
+      .skills-grid { grid-template-columns: 1fr 1fr !important; }
+      .about-inner { grid-template-columns: 1fr !important; text-align: center; }
+      .about-details { justify-content: center; }
+      .about-image-frame { width: 300px !important; height: 380px !important; margin: 0 auto; }
+    }
+
+    @media (max-width: 768px) {
+      body { padding-bottom: 70px; }
+      section { padding: 40px 0 !important; }
+      .container { padding: 0 16px !important; }
+      .header { top: 0 !important; border-radius: 0 !important; width: 100% !important; border-left: none !important; border-right: none !important; }
+      .header-nav { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #0f0f0f; padding: 12px; border-bottom: 1px solid rgba(0, 255, 65, 0.12); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8); }
+      html[data-mode="curious"] .header-nav { border-bottom-color: rgba(255, 0, 0, 0.12); }
+      .header-nav.open { display: block; }
+      .header-nav ul { flex-direction: column; align-items: stretch; gap: 4px; }
+      .nav-link { padding: 8px 16px; }
+      .header-toggle { display: flex !important; }
+      .mode-label { display: none !important; }
+      .hero { min-height: auto !important; padding: 100px 0 40px !important; }
+      .hero-image-frame { width: 220px !important; }
+      .name-first, .name-last { font-size: 32px !important; }
+      .hero-typewriter { font-size: 16px !important; }
+      .stats-grid { gap: 16px; flex-wrap: wrap; }
+      .stats-number { font-size: 24px !important; }
+      .beyond-grid { grid-template-columns: 1fr !important; }
+      .skills-grid { grid-template-columns: 1fr !important; }
+      .skills-grid .items { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)) !important; }
+      .footer-body { grid-template-columns: 1fr !important; text-align: center; gap: 24px; }
+      .footer-brand { flex-direction: column; align-items: center; text-align: center; }
+      .footer-social-links { justify-content: center; }
+      .footer-mode-row { justify-content: center; }
+      .footer-quote-line { justify-content: center; text-align: center; }
+      .footer-quote-author { margin-left: 0; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .form-row { grid-template-columns: 1fr !important; }
+      .contact-form .btn-primary { width: 100%; justify-content: center; }
+      .back-to-top { bottom: 80px; }
+      .project-card { grid-template-columns: 1fr !important; }
+      .project-image img { min-height: 200px !important; }
+      .project-info { padding: 16px !important; }
+      .project-info h3 { font-size: 20px; }
+      .project-actions { flex-direction: column !important; align-items: stretch; }
+      .project-actions .btn-primary, .project-actions .btn-secondary { justify-content: center; }
+      .section-title { font-size: 24px; }
+      .section-header { margin-bottom: 24px !important; }
+      .section-header::after { left: 50% !important; transform: translateX(-50%) !important; }
+      .contact-form-container { padding: 16px !important; }
+      .social-sidebar { display: none !important; }
+      .mobile-bottom-nav { display: flex !important; }
+      .mobile-social-strip { display: flex !important; }
+      .bg-icon { width: 40px !important; height: 40px !important; opacity: 0.1 !important; }
+      .about-image-frame { width: 260px !important; height: 320px !important; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-image-frame { width: 180px !important; }
+      .name-first, .name-last { font-size: 24px !important; }
+      .hero-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
+      .hero-actions .btn-primary { grid-column: 1 / -1; justify-content: center; }
+      .cert-card { flex: 0 0 180px !important; }
+      .section-title { font-size: 20px !important; }
+      .bg-icon { display: none !important; }
+      .about-image-frame { width: 200px !important; height: 250px !important; }
+    }
+
+    /* ============================================
+       REVEAL ANIMATIONS
+       ============================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+    }
+
+    /* ============================================
+       CSS VARIABLES (from variables.css)
+       ============================================ */
+    :root {
+      --hacker-green: #00ff41;
+      --hacker-green-dim: #00cc33;
+      --hacker-green-glow: rgba(0, 255, 65, 0.15);
+      --hacker-green-soft: rgba(0, 255, 65, 0.06);
+      --hacker-green-bright: #33ff66;
+      --hacker-bg: #0a0a0a;
+      --hacker-bg-card: #0f0f0f;
+      --hacker-bg-surface: #141414;
+      --hacker-border: rgba(0, 255, 65, 0.12);
+      --hacker-border-hover: rgba(0, 255, 65, 0.3);
+      --hacker-text: #d0ffd0;
+      --hacker-text-secondary: #80ff90;
+      --hacker-text-muted: #3a8a4a;
+      --hacker-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+      --hacker-glow: 0 0 60px rgba(0, 255, 65, 0.06);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
+      --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem;
+      --space-7: 1.75rem; --space-8: 2rem; --space-10: 2.5rem;
+      --space-12: 3rem; --space-16: 4rem; --space-20: 5rem;
+      --text-2xs: 0.625rem; --text-xs: 0.75rem; --text-sm: 0.875rem;
+      --text-base: 1rem; --text-lg: 1.125rem; --text-xl: 1.25rem;
+      --text-2xl: 1.5rem; --text-3xl: 2rem; --text-4xl: 2.5rem;
+      --text-5xl: 3rem;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-display: 'Orbitron', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    /* ============================================
+       MODALS — BASE
+       ============================================ */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .modal.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+    .modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+    }
+    .modal-content {
+      position: relative;
+      max-width: 900px;
+      width: 90%;
+      max-height: 90vh;
+      background: #0f0f0f;
+      overflow: hidden;
+      z-index: 1;
+      border: 1px solid rgba(0,255,65,0.12);
+      border-radius: 2px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.8);
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .modal.active .modal-content {
+      transform: scale(1);
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      z-index: 2;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(0,255,65,0.12);
+      background: #0a0a0a;
+      color: #3a8a4a;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border-radius: 2px;
+      font-family: var(--font-mono);
+    }
+    .modal-close:hover {
+      border-color: #00ff41;
+      color: #00ff41;
+      transform: rotate(90deg);
+    }
+
+    /* ============================================
+       PROJECT MODAL
+       ============================================ */
+    .modal-project-content {
+      max-width: 960px;
+      width: 92%;
+      max-height: 88vh;
+    }
+    .modal-project-body {
+      display: flex;
+      flex-direction: column;
+      max-height: 88vh;
+    }
+    .modal-project-hero {
+      position: relative;
+      height: 260px;
+      flex-shrink: 0;
+      overflow: hidden;
+      background: #0a0a0a;
+    }
+    .modal-project-hero img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: grayscale(0.3);
+      transition: filter 0.5s ease;
+    }
+    .modal-project-hero-fallback {
+      display: none;
+      position: absolute;
+      inset: 0;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 5rem;
+      font-weight: 800;
+      color: #00ff41;
+      opacity: 0.1;
+      background: #0a0a0a;
+    }
+    .modal-project-hero-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 1.5rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .modal-project-hero-overlay h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #fff;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+      line-height: 1.2;
+    }
+    .modal-project-hero-tags {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+    }
+    .modal-project-hero-tags span {
+      padding: 0.25rem 0.75rem;
+      background: rgba(0,255,65,0.12);
+      border: 1px solid rgba(0,255,65,0.15);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #00ff41;
+      border-radius: 2px;
+      font-weight: 500;
+    }
+    .modal-project-details {
+      padding: 1.5rem;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .modal-project-details::-webkit-scrollbar { width: 4px; }
+    .modal-project-details::-webkit-scrollbar-thumb { background: rgba(0,255,65,0.12); border-radius: 2px; }
+    .modal-project-section {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .modal-project-section-icon {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(0,255,65,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #00ff41;
+      margin-top: 2px;
+      border-radius: 2px;
+      background: rgba(0,255,65,0.02);
+    }
+    .modal-project-section-icon svg {
+      width: 18px; height: 18px;
+      stroke: currentColor; fill: none; stroke-width: 2;
+    }
+    .modal-project-section-content { flex: 1; min-width: 0; }
+    .modal-project-section-content h3 {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #00ff41;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .modal-project-section-content p {
+      color: #80ff90;
+      font-size: 0.875rem;
+      line-height: 1.8;
+      font-family: var(--font-body);
+    }
+    .modal-project-features {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.25rem;
+    }
+    .modal-project-features span {
+      padding: 0.25rem 0.75rem;
+      background: #0a0a0a;
+      border: 1px solid rgba(0,255,65,0.12);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #3a8a4a;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    .modal-project-features span:hover { border-color: #00ff41; color: #00ff41; }
+    .modal-project-footer {
+      padding: 0.75rem 1.5rem;
+      border-top: 1px solid rgba(0,255,65,0.12);
+      background: #0a0a0a;
+      flex-shrink: 0;
+    }
+    .modal-project-actions { display: flex; gap: 0.75rem; }
+    .modal-project-actions .btn-secondary,
+    .modal-project-actions .btn-primary {
+      padding: 0.5rem 1.25rem;
+      font-size: 0.75rem;
+      border-radius: 2px;
+    }
+    .modal-project-actions svg { width: 14px; height: 14px; }
+
+    /* ============================================
+       CERTIFICATE MODAL
+       ============================================ */
+    .cert-modal-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      max-height: 90vh;
+    }
+    .cert-modal-body img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      min-height: 300px;
+      background: #0a0a0a;
+      padding: 1rem;
+      filter: grayscale(0.2);
+    }
+    .cert-modal-body .modal-info {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      overflow-y: auto;
+    }
+    .cert-modal-body .modal-info h2 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #d0ffd0;
+    }
+    .cert-modal-body .modal-info p {
+      color: #80ff90;
+      line-height: 1.7;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+    }
+    .cert-modal-body .modal-info .cert-desc {
+      margin-top: 0.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(0,255,65,0.12);
+      font-size: 0.875rem;
+      color: #80ff90;
+      line-height: 1.8;
+    }
+
+    /* ============================================
+       RESUME MODAL
+       ============================================ */
+    .modal-content-wide { max-width: 1000px; max-height: 95vh; }
+    .resume-modal-body { display: flex; flex-direction: column; max-height: 95vh; }
+    .resume-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1.5rem;
+      border-bottom: 1px solid rgba(0,255,65,0.12);
+    }
+    .resume-modal-header h2 {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #d0ffd0;
+    }
+    .resume-modal-actions { display: flex; gap: 0.75rem; align-items: center; }
+    .resume-modal-download, .resume-modal-open {
+      padding: 0.5rem 1rem;
+      font-size: 0.75rem;
+      gap: 0.5rem;
+      border-radius: 2px;
+    }
+    .resume-modal-viewer { flex: 1; min-height: 70vh; }
+    .resume-embed { width: 100%; height: 70vh; border: none; display: block; }
+
+    /* ============================================
+       CURIOUS MODE — PROJECTS SECTION
+       ============================================ */
+    html[data-mode="curious"] .project-info h3 { color: #ffcccc; }
+    html[data-mode="curious"] .project-info .project-desc { color: #ff6666; }
+    html[data-mode="curious"] .project-tags span {
+      background: rgba(255,0,0,0.04);
+      border-color: rgba(255,0,0,0.12);
+      color: #cc3333;
+    }
+    html[data-mode="curious"] .project-actions .btn-secondary {
+      border-color: rgba(255,0,0,0.2);
+      color: #ff6666;
+    }
+    html[data-mode="curious"] .project-actions .btn-secondary:hover {
+      border-color: #ff0000;
+      color: #ff0000;
+    }
+    html[data-mode="curious"] .project-card { border-color: rgba(255,0,0,0.12); }
+    html[data-mode="curious"] .project-card:hover { border-color: rgba(255,0,0,0.4); box-shadow: 0 8px 40px rgba(255,0,0,0.08); }
+    html[data-mode="curious"] .project-featured-badge { background: #ff0000; }
+    html[data-mode="curious"] .view-label { color: #ff0000; border-color: #ff0000; }
+
+    /* ============================================
+       CURIOUS MODE — CERTIFICATE SECTION
+       ============================================ */
+    html[data-mode="curious"] .cert-card { border-color: rgba(255,0,0,0.12); }
+    html[data-mode="curious"] .cert-card:hover { border-color: rgba(255,0,0,0.4); box-shadow: 0 8px 40px rgba(255,0,0,0.08); }
+    html[data-mode="curious"] .cert-card .info h4 { color: #ffcccc; }
+    html[data-mode="curious"] .cert-card .info p { color: #cc3333; }
+    html[data-mode="curious"] .cert-card .info .cat {
+      background: rgba(255,0,0,0.04);
+      border-color: rgba(255,0,0,0.12);
+      color: #cc3333;
+    }
+    html[data-mode="curious"] .cert-arrow { border-color: rgba(255,0,0,0.2); color: #cc3333; }
+    html[data-mode="curious"] .cert-arrow:hover { border-color: #ff0000; color: #ff0000; background: rgba(255,0,0,0.04); }
+    html[data-mode="curious"] .cert-stack::-webkit-scrollbar-thumb { background: rgba(255,0,0,0.15); }
+
+    /* ============================================
+       CURIOUS MODE — PROJECT MODAL
+       ============================================ */
+    html[data-mode="curious"] .modal-content {
+      border-color: rgba(255,0,0,0.15);
+    }
+    html[data-mode="curious"] .modal-project-hero-tags span {
+      background: rgba(255,0,0,0.1);
+      border-color: rgba(255,0,0,0.15);
+      color: #ff6666;
+    }
+    html[data-mode="curious"] .modal-project-hero-overlay h2 { color: #ffcccc; }
+    html[data-mode="curious"] .modal-project-section-icon {
+      border-color: rgba(255,0,0,0.15);
+      color: #ff0000;
+    }
+    html[data-mode="curious"] .modal-project-section-content h3 { color: #ff0000; }
+    html[data-mode="curious"] .modal-project-section-content p { color: #ff6666; }
+    html[data-mode="curious"] .modal-project-features span {
+      background: rgba(255,0,0,0.04);
+      border-color: rgba(255,0,0,0.12);
+      color: #cc3333;
+    }
+    html[data-mode="curious"] .modal-project-features span:hover {
+      border-color: #ff0000;
+      color: #ff0000;
+    }
+    html[data-mode="curious"] .modal-project-footer {
+      border-top-color: rgba(255,0,0,0.12);
+      background: rgba(255,0,0,0.02);
+    }
+    html[data-mode="curious"] .modal-close {
+      border-color: rgba(255,0,0,0.12);
+      color: #cc3333;
+    }
+    html[data-mode="curious"] .modal-close:hover { border-color: #ff0000; color: #ff0000; }
+
+    /* ============================================
+       CURIOUS MODE — CERTIFICATE MODAL
+       ============================================ */
+    html[data-mode="curious"] .cert-modal-body .modal-info h2 { color: #ffcccc; }
+    html[data-mode="curious"] .cert-modal-body .modal-info p { color: #ff6666; }
+    html[data-mode="curious"] .cert-modal-body .modal-info .cert-desc {
+      border-top-color: rgba(255,0,0,0.12);
+      color: #ff6666;
+    }
+
+    /* ============================================
+       MODAL RESPONSIVE
+       ============================================ */
+    @media (max-width: 768px) {
+      .modal-project-content { width: 96%; max-height: 96vh; }
+      .modal-project-body { max-height: 96vh; }
+      .modal-project-hero { height: 180px; }
+      .modal-project-details { padding: 1rem; }
+      .modal-project-footer { padding: 0.75rem 1rem; }
+      .modal-project-actions { flex-direction: column; }
+      .modal-project-actions .btn-primary,
+      .modal-project-actions .btn-secondary { width: 100%; justify-content: center; }
+      .cert-modal-body { grid-template-columns: 1fr !important; }
+      .cert-modal-body img { min-height: 180px; max-height: 200px; }
+      .cert-modal-body .modal-info { padding: 1rem; }
+      .modal-content-wide { width: 96%; max-height: 96vh; }
+      .resume-embed { height: 55vh; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== FULL SCREEN MATRIX RAIN ===== -->
+  <canvas id="matrixCanvas"></canvas>
+
+  <!-- ===== SCANLINES ===== -->
+  <div class="scanlines"></div>
+
+  <!-- ===== VIGNETTE ===== -->
+  <div class="vignette"></div>
+
+  <!-- ===== GLITCH LINE ===== -->
+  <div class="glitch-line"></div>
+
+  <!-- ===== BACKGROUND ICONS ===== -->
+  <div class="bg-icons-container">
+    <div class="bg-icon"><svg viewBox="0 0 64 64"><rect x="4" y="8" width="56" height="48" rx="4"/><circle cx="14" cy="14" r="3"/><circle cx="24" cy="14" r="3"/><circle cx="34" cy="14" r="3"/><path d="M12 28l6 6-6 6"/><path d="M24 34h12"/><path d="M12 44l12-6"/></svg></div>
+    <div class="bg-icon"><svg viewBox="0 0 64 64"><path d="M22 16L10 32l12 16"/><path d="M42 16l12 16-12 16"/><path d="M34 12l-4 40"/></svg></div>
+    <div class="bg-icon"><svg viewBox="0 0 64 64"><ellipse cx="32" cy="14" rx="20" ry="6"/><path d="M12 14v32c0 3.314 8.954 6 20 6s20-2.686 20-6V14"/><path d="M12 30c0 3.314 8.954 6 20 6s20-2.686 20-6"/><path d="M22 40l-4 4 4 4"/><path d="M42 40l4 4-4 4"/></svg></div>
+    <div class="bg-icon"><svg viewBox="0 0 64 64"><circle cx="18" cy="16" r="6"/><circle cx="18" cy="48" r="6"/><circle cx="46" cy="32" r="6"/><path d="M18 22v20"/><path d="M24 28l16-4"/><path d="M24 36l16 4"/></svg></div>
+    <div class="bg-icon"><svg viewBox="0 0 64 64"><path d="M32 56l-6-12c-6-12-2-24 6-36"/><path d="M32 56l6-12c6-12 2-24-6-36"/><path d="M32 8c-8 12-12 24-6 36l6 12"/><path d="M32 8c8 12 12 24 6 36l-6 12"/><circle cx="32" cy="32" r="4"/></svg></div>
+    <div class="bg-icon"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="12" rx="2"/><rect x="8" y="26" width="48" height="12" rx="2"/><rect x="8" y="44" width="48" height="12" rx="2"/><circle cx="18" cy="14" r="2"/><circle cx="18" cy="32" r="2"/><circle cx="18" cy="50" r="2"/><path d="M30 14h16"/><path d="M30 32h16"/><path d="M30 50h16"/></svg></div>
+    <div class="bg-icon"><svg viewBox="0 0 64 64"><path d="M44 44H24a12 12 0 1 1 11.5-16h3.5a8 8 0 1 1 5 16z"/><path d="M28 44l-4 6 4 6"/><path d="M40 44l4 6-4 6"/></svg></div>
+    <div class="bg-icon"><svg viewBox="0 0 64 64"><ellipse cx="32" cy="20" rx="14" ry="8"/><ellipse cx="32" cy="44" rx="14" ry="8"/><path d="M18 20v24"/><path d="M46 20v24"/><path d="M18 28c0 4.418 6.268 8 14 8s14-3.582 14-8"/><path d="M18 36c0 4.418 6.268 8 14 8s14-3.582 14-8"/></svg></div>
+    <div class="bg-icon"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="4"/><path d="M24 20h16"/><path d="M24 28h12"/><path d="M24 36h8"/><circle cx="44" cy="24" r="4"/><path d="M40 28v8"/><path d="M16 20v24"/></svg></div>
+    <div class="bg-icon"><svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="4"/><path d="M24 20l4 12 4-12"/><path d="M36 20l4 12 4-12"/><path d="M28 32l-4 8 4 4"/><path d="M36 32l4 8-4 4"/></svg></div>
+  </div>
+
+  <!-- ===== LOADING SCREEN ===== -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-inner">
+      <div class="load-logo">$</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#80ff90;margin-bottom:8px;">INITIALIZING SYSTEM...</div>
+      <div class="loading-bar"><div class="loading-progress"></div></div>
+      <div class="load-pct" id="loadPct">0%</div>
+    </div>
+  </div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div id="mainContent" style="display:none;">
+
+    <!-- HEADER -->
+    <header class="header" id="header">
+      <div class="header-container">
+        <a href="#" class="header-logo">
+          <span class="logo-mark">$</span>
+          <span class="logo-text">Thirumurugan <span>C</span></span>
+        </a>
+        <nav class="header-nav" id="headerNav">
+          <ul>
+            <li><a href="#hero" class="nav-link active" data-section="hero">Home</a></li>
+            <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+            <li><a href="#projects" class="nav-link" data-section="projects">Projects</a></li>
+            <li><a href="#skills" class="nav-link" data-section="skills">Skills</a></li>
+            <li><a href="#certificates" class="nav-link" data-section="certificates">Certs</a></li>
+            <li><a href="#beyond" class="nav-link" data-section="beyond">Beyond</a></li>
+            <li><a href="#contact" class="nav-link" data-section="contact">Connect</a></li>
+          </ul>
+        </nav>
+        <div class="header-actions">
+          <button class="mode-toggle" id="modeToggle">
+            <span class="mode-track"><span class="mode-handle">$</span></span>
+            <span class="mode-label" id="modeLabel">Hacker</span>
+          </button>
+          <button class="header-toggle" id="headerToggle" aria-label="Toggle navigation">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- SOCIAL SIDEBAR -->
+    <aside class="social-sidebar" id="socialSidebar">
+      <div class="social-avatar"><img src="assets/profile/sketch-photo.png" alt="Thirumurugan C" id="sidebarAvatar" /></div>
+      <div class="social-divider"></div>
+      <div class="social-links" id="socialLinks"></div>
+      <div class="social-divider"></div>
+      <div class="social-mode-indicator">
+        <span class="mode-dot"></span>
+        <span class="mode-text" id="socialModeText">Hacker</span>
+      </div>
+    </aside>
+
+    <!-- MOBILE SOCIAL STRIP -->
+    <div class="mobile-social-strip" id="mobileSocialStrip">
+      <a href="https://github.com/thirutharun65-tech" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48 0-.24-.01-.88-.01-1.73-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1.01.07 1.54 1.04 1.54 1.04.9 1.54 2.36 1.1 2.94.84.09-.65.35-1.1.64-1.35-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02.8-.22 1.65-.33 2.5-.33.85 0 1.7.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .26.18.58.69.48C19.13 20.17 22 16.42 22 12c0-5.52-4.48-10-10-10z" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/thirumurugan-c-aa6228386/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z" stroke="currentColor" stroke-width="1.8" fill="none"/><rect x="2" y="9" width="4" height="12" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="4" cy="4" r="2" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+      </a>
+      <a href="https://leetcode.com/" target="_blank" rel="noopener" aria-label="LeetCode">
+        <svg viewBox="0 0 24 24"><path d="M16.102 16.892c-.165 0-.33-.042-.473-.126l-5.491-3.382c-.217-.133-.356-.367-.356-.618v-2.576c0-.251.139-.485.356-.618l5.491-3.382c.142-.084.307-.126.473-.126.163 0 .327.041.471.125.287.169.461.478.461.81v1.434c0 .251-.138.485-.356.618l-3.178 1.956c-.217.134-.356.367-.356.62s.139.485.356.62l3.178 1.958c.218.133.356.366.356.618v1.434c0 .332-.174.641-.461.81-.144.084-.308.126-.471.126zm5.345-4.892c0 .551-.195 1.092-.578 1.525l-5.686 6.469c-.699.795-1.717 1.276-2.829 1.276h-3.843c-.44 0-.797-.357-.797-.798 0-.44.357-.798.797-.798h3.843c.592 0 1.148-.301 1.488-.805l5.686-6.469c.195-.221.299-.503.299-.799 0-.296-.104-.578-.299-.8l-5.686-6.468c-.34-.504-.896-.806-1.488-.806h-3.843c-.44 0-.797-.358-.797-.799 0-.44.357-.798.797-.798h3.843c1.112 0 2.13.481 2.829 1.276l5.686 6.469c.382.433.578.974.578 1.524z" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+      </a>
+      <a href="mailto:thirutharun65@gmail.com" aria-label="Email">
+        <svg viewBox="0 0 24 24"><path d="M4 6l8 5 8-5M4 6v12a2 2 0 002 2h12a2 2 0 002-2V6" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+      </a>
+    </div>
+
+    <!-- MOBILE BOTTOM NAV -->
+    <nav class="mobile-bottom-nav" id="mobileBottomNav">
+      <a href="#hero" data-section="hero" class="active">
+        <svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M5 10v8a2 2 0 002 2h10a2 2 0 002-2v-8" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+        <span>Home</span>
+      </a>
+      <a href="#about" data-section="about">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M12 7v5l3 3" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+        <span>About</span>
+      </a>
+      <a href="#projects" data-section="projects">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.8" fill="none"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.8" fill="none"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.8" fill="none"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+        <span>Projects</span>
+      </a>
+      <a href="#certificates" data-section="certificates">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+        <span>Certs</span>
+      </a>
+      <a href="#resume" data-section="resume">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M14 2v6h6M10 13h4M10 17h4" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+        <span>Resume</span>
+      </a>
+      <a href="#contact" data-section="contact">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+        <span>Contact</span>
+      </a>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+      <div class="hero-container">
+        <div class="hero-inner">
+          <div class="hero-text">
+            <div class="hero-prompt"><span>$ whoami</span><span class="cursor-blink">█</span></div>
+            <h1 class="hero-name"><span class="name-first">Thirumurugan</span><span class="name-last glitch-text" data-text="C">C</span></h1>
+            <div class="hero-typewriter" id="heroTypewriter"></div>
+            <p class="hero-tagline">// Building systems that turn raw data into meaningful decisions</p>
+            <div class="hero-actions">
+              <a href="#projects" class="btn-primary btn-glow">Explore Projects</a>
+              <a href="#contact" class="btn-secondary">Contact</a>
+              <a href="assets/resume/Thirumurugan_C_Resume.pdf" download class="btn-secondary btn-resume-download">
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+                Resume
+              </a>
+            </div>
+            <div class="hero-social">
+              <a href="https://github.com/thirutharun65-tech" target="_blank" rel="noopener" class="hero-social-link">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48 0-.24-.01-.88-.01-1.73-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1.01.07 1.54 1.04 1.54 1.04.9 1.54 2.36 1.1 2.94.84.09-.65.35-1.1.64-1.35-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02.8-.22 1.65-.33 2.5-.33.85 0 1.7.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .26.18.58.69.48C19.13 20.17 22 16.42 22 12c0-5.52-4.48-10-10-10z" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+                <span>GitHub</span>
+              </a>
+              <a href="https://www.linkedin.com/in/thirumurugan-c-aa6228386/" target="_blank" rel="noopener" class="hero-social-link">
+                <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z" stroke="currentColor" stroke-width="1.8" fill="none"/><rect x="2" y="9" width="4" height="12" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="4" cy="4" r="2" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+                <span>LinkedIn</span>
+              </a>
+              <a href="https://leetcode.com/u/thirutharun/" target="_blank" rel="noopener" class="hero-social-link">
+                <svg viewBox="0 0 24 24"><path d="M16.102 16.892c-.165 0-.33-.042-.473-.126l-5.491-3.382c-.217-.133-.356-.367-.356-.618v-2.576c0-.251.139-.485.356-.618l5.491-3.382c.142-.084.307-.126.473-.126.163 0 .327.041.471.125.287.169.461.478.461.81v1.434c0 .251-.138.485-.356.618l-3.178 1.956c-.217.134-.356.367-.356.62s.139.485.356.62l3.178 1.958c.218.133.356.366.356.618v1.434c0 .332-.174.641-.461.81-.144.084-.308.126-.471.126zm5.345-4.892c0 .551-.195 1.092-.578 1.525l-5.686 6.469c-.699.795-1.717 1.276-2.829 1.276h-3.843c-.44 0-.797-.357-.797-.798 0-.44.357-.798.797-.798h3.843c.592 0 1.148-.301 1.488-.805l5.686-6.469c.195-.221.299-.503.299-.799 0-.296-.104-.578-.299-.8l-5.686-6.468c-.34-.504-.896-.806-1.488-.806h-3.843c-.44 0-.797-.358-.797-.799 0-.44.357-.798.797-.798h3.843c1.112 0 2.13.481 2.829 1.276l5.686 6.469c.382.433.578.974.578 1.524z" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+                <span>LeetCode</span>
+              </a>
+              <a href="mailto:thirutharun65@gmail.com" class="hero-social-link">
+                <svg viewBox="0 0 24 24"><path d="M4 6l8 5 8-5M4 6v12a2 2 0 002 2h12a2 2 0 002-2V6" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+                <span>Email</span>
+              </a>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="hero-image-frame">
+              <div class="hero-glow"></div>
+              <img src="assets/profile/sketch-photo.png" alt="Thirumurugan C" id="heroPortrait" class="hero-portrait-img" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+   <!-- ===== STATS ===== -->
+<section class="stats-bar" id="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stats-item">
+        <span class="stats-number" data-count="136">0</span>
+        <span class="stats-label">Problems Solved</span>
+      </div>
+      <div class="stats-divider"></div>
+      <div class="stats-item">
+        <span class="stats-number" data-count="10+">0</span>
+        <span class="stats-label">Projects Built</span>
+      </div>
+      <div class="stats-divider"></div>
+      <div class="stats-item">
+        <span class="stats-number" data-count="12+">0</span>
+        <span class="stats-label">Certifications</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="about" id="about">
+      <div class="container">
+        <div class="about-inner">
+          <div class="about-text">
+            <div class="section-header">
+              <span class="section-tag">About Me</span>
+              <h2 class="section-title">Who <span class="highlight">I am</span></h2>
+            </div>
+            <p>I'm a Computer Science Engineering student at Prince Dr. K. Vasudevan College of Engineering and Technology, pursuing B.E. Computer Science and Engineering. I build systems that solve real problems — from web apps to Java and Python solutions.</p>
+            <p>My journey started with curiosity about how things work, and evolved into a passion for software development, problem-solving, and continuous learning.</p>
+            <div class="about-details">
+              <div class="about-detail-item">
+                <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span>India</span>
+              </div>
+              <div class="about-detail-item">
+                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                <span>Prince Dr. K. Vasudevan College of Engineering and Technology</span>
+              </div>
+              <div class="about-detail-item">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                <span>Building since 2025</span>
+              </div>
+            </div>
+          </div>
+          <div class="about-visual">
+            <div class="about-image-frame">
+              <div class="glow"></div>
+              <img src="assets/profile/about.png" alt="Thirumurugan C" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section class="projects" id="projects">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Case Studies</span>
+          <h2 class="section-title">Projects I've <span class="highlight">built</span></h2>
+          <p class="section-desc">Each project is a story — here's what I learned building them.</p>
+        </div>
+        <div class="projects-carousel-wrap">
+          <div class="projects-carousel" id="projectsContainer">
+            <div class="carousel-track" id="carouselTrack"></div>
+          </div>
+          <div class="carousel-controls">
+            <button class="carousel-btn carousel-prev" aria-label="Previous"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+            <div class="carousel-dots" id="carouselDots"></div>
+            <button class="carousel-btn carousel-next" aria-label="Next"><svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" fill="none"/></svg></button>
+          </div>
+          <div style="text-align:center;margin-top:24px;"><a href="projects-full.html" class="btn-primary btn-pulse">View All Projects</a></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section class="skills" id="skills">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Skills</span>
+          <h2 class="section-title">Tools I <span class="highlight">use</span></h2>
+        </div>
+        <div class="skills-grid" id="skillsContainer"></div>
+      </div>
+    </section>
+
+    <!-- ===== CERTIFICATES ===== -->
+    <section class="certificates" id="certificates">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Certs</span>
+          <h2 class="section-title">Certificates I've <span class="highlight">earned</span></h2>
+          <p class="section-desc">Scroll to browse the collection.</p>
+        </div>
+        <div class="cert-scroll-wrap">
+          <button class="cert-arrow cert-arrow-prev" aria-label="Previous certificates">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          </button>
+          <div class="cert-stack" id="certsContainer"></div>
+          <button class="cert-arrow cert-arrow-next" aria-label="Next certificates">
+            <svg viewBox="0 0 24 24" width="20" height="20"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+          </button>
+        </div>
+        <div style="text-align:center;margin-top:32px;"><a href="certificates-full.html" class="btn-primary btn-pulse">View All Certificates</a></div>
+      </div>
+    </section>
+
+    <!-- ===== RESUME ===== -->
+    <section class="resume" id="resume">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Resume</span>
+          <h2 class="section-title">My <span class="highlight">Resume</span></h2>
+          <p class="section-desc">Preview or download my latest resume.</p>
+        </div>
+        <div class="resume-actions">
+          <a href="#" class="btn-primary btn-glow resume-preview-btn" id="resumePreviewBtn2">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+            Preview Resume
+          </a>
+          <a href="assets/resume/Thirumurugan_C_Resume.pdf" download class="btn-secondary resume-download-btn">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>
+            Download Resume
+          </a>
+        </div>
+        <div class="resume-preview">
+          <embed src="assets/resume/Thirumurugan_C_Resume.pdf" type="application/pdf" class="resume-preview-embed" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BEYOND ===== -->
+    <section class="beyond" id="beyond">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Beyond Coding</span>
+          <h2 class="section-title">What I do <span class="highlight">outside</span></h2>
+        </div>
+        <div class="beyond-grid" id="beyondGrid"></div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Connect</span>
+          <h2 class="section-title">Let's build <span class="highlight">something</span></h2>
+          <p class="contact-desc" style="font-family:'JetBrains Mono',monospace;color:#80ff90;font-size:16px;max-width:480px;">Have an idea, a project, or just want to chat? Reach out.</p>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-info">
+            <div class="contact-info-card">
+              <div class="info-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+              <div class="info-details"><h3>Location</h3><p>India</p></div>
+            </div>
+            <div class="contact-info-card">
+              <div class="info-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <div class="info-details"><h3>Email</h3><p><a href="mailto:thirutharun65@gmail.com">thirutharun65@gmail.com</a></p></div>
+            </div>
+            <div class="contact-info-card">
+              <div class="info-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg></div>
+              <div class="info-details"><h3>Phone</h3><p><a href="tel:+918148204064">+91 8148204064</a></p></div>
+            </div>
+            <div class="contact-info-card contact-social-card">
+              <div class="info-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+              <div class="info-details" style="flex:1"><h3>Social</h3><div class="contact-social-links" id="contactSocialLinks"></div></div>
+            </div>
+          </div>
+          <div class="contact-form-container">
+            <form class="contact-form" id="contactForm" novalidate>
+              <div class="form-row">
+                <div class="form-group"><label for="formName">Name <span aria-hidden="true">*</span></label><input type="text" id="formName" placeholder="Your name" required /><span class="form-error" id="nameError"></span></div>
+                <div class="form-group"><label for="formEmail">Email <span aria-hidden="true">*</span></label><input type="email" id="formEmail" placeholder="you@example.com" required /><span class="form-error" id="emailError"></span></div>
+              </div>
+              <div class="form-group"><label for="formSubject">Subject</label><input type="text" id="formSubject" placeholder="What's this about?" /></div>
+              <div class="form-group"><label for="formMessage">Message <span aria-hidden="true">*</span></label><textarea id="formMessage" rows="4" placeholder="Tell me about your idea..." required></textarea><span class="form-error" id="messageError"></span></div>
+              <button type="submit" class="btn-primary" id="formSubmit">Send Message</button>
+              <div class="form-status" id="formStatus"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer" id="footer">
+      <div class="footer-container">
+        <div class="footer-shell">
+          <span class="shell-prompt">◈</span>
+          <span class="shell-path">thirutharun@portfolio</span>
+          <span class="shell-dollar">$</span>
+          <span class="shell-cmd">./build --footer</span>
+        </div>
+
+        <div class="footer-body">
+          <div class="footer-brand">
+            <div class="footer-avatar"><img src="assets/profile/sketch-photo.png" alt="Thirumurugan C" /></div>
+            <div class="footer-brand-text">
+              <h3>Thirumurugan <span>C</span></h3>
+              <p>Building the future, one line of code at a time.</p>
+            </div>
+          </div>
+
+          <div class="footer-nav">
+            <h4>Navigate</h4>
+            <ul>
+              <li><a href="#hero">Home</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#projects">Projects</a></li>
+              <li><a href="#skills">Skills</a></li>
+              <li><a href="#certificates">Certs</a></li>
+              <li><a href="#beyond">Beyond</a></li>
+              <li><a href="#contact">Connect</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-social">
+            <h4>Connect</h4>
+            <div class="footer-social-links" id="footerSocial"></div>
+            <div class="footer-mode-row">
+              <span class="mode-dot"></span>
+              <span class="footer-mode-label">Mode</span>
+              <span class="footer-mode" id="footerMode">Hacker View</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-quote-line">
+          <svg class="quote-ornament" viewBox="0 0 24 24" width="18" height="18"><path d="M10 11h-4a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 011 1v6c0 2.667-1.333 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M19 11h-4a1 1 0 01-1-1V7a1 1 0 011-1h3a1 1 0 011 1v6c0 2.667-1.333 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+          <p class="footer-quote-text">"Create something better than this."</p>
+          <span class="footer-quote-author">— Thirumurugan</span>
+        </div>
+
+        <div class="footer-bottom">
+          <p class="footer-copy">&copy; <span id="footerYear">2025</span> Thirumurugan C. All rights reserved.</p>
+          <div class="footer-doodles">
+            <svg viewBox="0 0 64 64"><rect x="4" y="8" width="56" height="48" rx="4"/><circle cx="14" cy="14" r="3"/><circle cx="24" cy="14" r="3"/><circle cx="34" cy="14" r="3"/><path d="M12 28l6 6-6 6"/><path d="M24 34h12"/><path d="M12 44l12-6"/></svg>
+            <svg viewBox="0 0 64 64"><path d="M22 16L10 32l12 16"/><path d="M42 16l12 16-12 16"/><path d="M34 12l-4 40"/></svg>
+            <svg viewBox="0 0 64 64"><ellipse cx="32" cy="14" rx="20" ry="6"/><path d="M12 14v32c0 3.314 8.954 6 20 6s20-2.686 20-6V14"/><path d="M12 30c0 3.314 8.954 6 20 6s20-2.686 20-6"/><path d="M22 40l-4 4 4 4"/><path d="M42 40l4 4-4 4"/></svg>
+            <svg viewBox="0 0 64 64"><circle cx="18" cy="16" r="6"/><circle cx="18" cy="48" r="6"/><circle cx="46" cy="32" r="6"/><path d="M18 22v20"/><path d="M24 28l16-4"/><path d="M24 36l16 4"/></svg>
+            <svg viewBox="0 0 64 64"><path d="M32 56l-6-12c-6-12-2-24 6-36"/><path d="M32 56l6-12c6-12 2-24-6-36"/><path d="M32 8c-8 12-12 24-6 36l6 12"/><path d="M32 8c8 12 12 24 6 36l-6 12"/><circle cx="32" cy="32" r="4"/></svg>
+            <svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="12" rx="2"/><rect x="8" y="26" width="48" height="12" rx="2"/><rect x="8" y="44" width="48" height="12" rx="2"/><circle cx="18" cy="14" r="2"/><circle cx="18" cy="32" r="2"/><circle cx="18" cy="50" r="2"/><path d="M30 14h16"/><path d="M30 32h16"/><path d="M30 50h16"/></svg>
+            <svg viewBox="0 0 64 64"><path d="M44 44H24a12 12 0 1 1 11.5-16h3.5a8 8 0 1 1 5 16z"/><path d="M28 44l-4 6 4 6"/><path d="M40 44l4 6-4 6"/></svg>
+            <svg viewBox="0 0 64 64"><ellipse cx="32" cy="20" rx="14" ry="8"/><ellipse cx="32" cy="44" rx="14" ry="8"/><path d="M18 20v24"/><path d="M46 20v24"/><path d="M18 28c0 4.418 6.268 8 14 8s14-3.582 14-8"/><path d="M18 36c0 4.418 6.268 8 14 8s14-3.582 14-8"/></svg>
+            <svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="4"/><path d="M24 20h16"/><path d="M24 28h12"/><path d="M24 36h8"/><circle cx="44" cy="24" r="4"/><path d="M40 28v8"/><path d="M16 20v24"/></svg>
+            <svg viewBox="0 0 64 64"><rect x="8" y="8" width="48" height="48" rx="4"/><path d="M24 20l4 12 4-12"/><path d="M36 20l4 12 4-12"/><path d="M28 32l-4 8 4 4"/><path d="M36 32l4 8-4 4"/></svg>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ===== MODALS ===== -->
+  <div class="modal" id="projectModal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content modal-project-content">
+      <button class="modal-close">✕</button>
+      <div class="modal-project-body">
+        <div class="modal-project-hero"><img id="modalImg" src="" alt="" /><div class="modal-project-hero-fallback" id="modalHeroFallback"></div><div class="modal-project-hero-overlay"><h2 id="modalTitle"></h2><div class="modal-project-hero-tags" id="modalHeroTech"></div></div></div>
+        <div class="modal-project-details">
+          <div class="modal-project-section"><div class="modal-project-section-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg></div><div class="modal-project-section-content"><h3>Problem</h3><p id="modalProblem"></p></div></div>
+          <div class="modal-project-section"><div class="modal-project-section-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg></div><div class="modal-project-section-content"><h3>Challenge</h3><p id="modalChallenge"></p></div></div>
+          <div class="modal-project-section"><div class="modal-project-section-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div class="modal-project-section-content"><h3>Solution</h3><p id="modalSolution"></p></div></div>
+          <div class="modal-project-section" id="modalFeaturesSection"><div class="modal-project-section-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div><div class="modal-project-section-content"><h3>Features</h3><div class="modal-project-features" id="modalFeatures"></div></div></div>
+          <div class="modal-project-section" id="modalLessonsSection"><div class="modal-project-section-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div class="modal-project-section-content"><h3>Lessons Learned</h3><p id="modalLessons"></p></div></div>
+        </div>
+        <div class="modal-project-footer"><div class="modal-project-actions"><a href="#" id="modalGithub" class="btn-primary" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>View on GitHub</a><a href="#" id="modalLive" class="btn-primary" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Live Demo</a></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="certModal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <button class="modal-close">✕</button>
+      <div class="modal-body cert-modal-body">
+        <img id="certModalImg" src="" alt="" />
+        <div class="modal-info">
+          <h2 id="certModalTitle"></h2>
+          <p id="certModalIssuer"></p>
+          <p id="certModalCat"></p>
+          <p id="certModalAchieve"></p>
+          <p id="certModalDesc" class="cert-desc"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal resume-modal" id="resumeModal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content modal-content-wide">
+      <button class="modal-close">✕</button>
+      <div class="modal-body resume-modal-body">
+        <div class="resume-modal-header"><h2>Resume</h2><div class="resume-modal-actions"><a href="assets/resume/Thirumurugan_C_Resume.pdf" target="_blank" class="btn-secondary resume-modal-open"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>Open</a><a href="assets/resume/Thirumurugan_C_Resume.pdf" class="btn-primary resume-modal-download" id="resumeDownloadBtn"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" stroke-width="1.8" fill="none"/></svg>Download</a></div></div>
+        <div class="resume-modal-viewer"><embed src="assets/resume/Thirumurugan_C_Resume.pdf" type="application/pdf" class="resume-embed" /></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== BACK TO TOP ===== -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M18 15l-6-6-6 6" stroke="currentColor" stroke-width="2" fill="none"/></svg>
+  </button>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="data/portfolio-data.js"></script>
+  <script>
+    window.portfolioData.beyondCoding = [
+      { title: "Cricket & Video Games", description: "Passionate cricket player and gaming enthusiast.", icon: "compass" },
+      { title: "Typing", description: "Fast and accurate typing skills.", icon: "typewriter" },
+      { title: "Reading", description: "I enjoy reading books on various topics.", icon: "book" }
+    ];
+  </script>
+  <script src="js/matrix-rain.js"></script>
+  <script src="js/sections/hero.js"></script>
+  <script src="js/sections/ui.js"></script>
+  <script src="js/sections/projects.js"></script>
+  <script src="js/sections/certificates.js"></script>
+  <script src="js/sections/contact.js"></script>
+  <script src="js/sections/skills.js"></script>
+  <script src="js/sections/journey.js"></script>
+  <script src="js/mode-switcher.js"></script>
+  <script src="js/cursor.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    // Resume modal
+    document.getElementById('resumeDownloadBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      var url = 'assets/resume/Thirumurugan_C_Resume.pdf';
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.responseType = 'blob';
+      xhr.onload = function() {
+        var blob = xhr.response;
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'Thirumurugan_C_Resume.pdf';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      };
+      xhr.onerror = function() { window.open(url, '_blank'); };
+      xhr.send();
+    });
+
+    function openResumeModal() {
+      var modal = document.getElementById('resumeModal');
+      if (!modal) return;
+      if (typeof window.closeAllModals === 'function') window.closeAllModals();
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeResumeModal() {
+      var modal = document.getElementById('resumeModal');
+      if (!modal) return;
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('click', function(e) {
+      var previewBtn = e.target.closest('#resumePreviewBtn, #resumePreviewBtn2');
+      if (previewBtn) { e.preventDefault(); openResumeModal(); return; }
+      if (e.target.closest('#resumeModal .modal-overlay') || e.target.closest('#resumeModal .modal-close')) {
+        closeResumeModal();
+      }
+    });
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeResumeModal();
+    });
+
+    document.addEventListener('app:ready', function() {
+      if (typeof CursorController !== 'undefined') {
+        var mode = localStorage.getItem('mode') || 'hacker';
+        CursorController.init(mode);
+      }
+    });
+  </script>
+
+  <!-- ===== FULL SCREEN MATRIX RAIN ===== -->
+  <script>
+    (function() {
+      'use strict';
+      
+      var canvas = document.getElementById('matrixCanvas');
+      if (!canvas) return;
+      
+      var ctx = canvas.getContext('2d');
+      var W, H;
+      var fontSize = 14;
+      var drops = [];
+      
+      var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$#@%&*()_+{}|:<>?~アイウエオカキクケコサシスセソタチツテトナニヌネノ';
+      
+      function getColor() {
+        var mode = document.documentElement.getAttribute('data-mode') || 'hacker';
+        return mode === 'curious' ? '#ff0000' : '#00ff41';
+      }
+      
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+        var columns = Math.floor(W / fontSize);
+        drops = [];
+        for (var i = 0; i < columns; i++) {
+          drops[i] = Math.floor(Math.random() * -H / fontSize);
+        }
+      }
+      
+      function draw() {
+        ctx.fillStyle = 'rgba(10, 10, 10, 0.05)';
+        ctx.fillRect(0, 0, W, H);
+        
+        var color = getColor();
+        ctx.font = fontSize + 'px monospace';
+        
+        for (var i = 0; i < drops.length; i++) {
+          var char = chars[Math.floor(Math.random() * chars.length)];
+          var x = i * fontSize;
+          var y = drops[i] * fontSize;
+          
+          if (drops[i] > 0) {
+            ctx.globalAlpha = 0.9;
+            ctx.fillStyle = drops[i] % 2 === 0 ? '#ffffff' : color;
+            ctx.fillText(char, x, y);
+          }
+          
+          ctx.globalAlpha = 0.12 + Math.random() * 0.28;
+          ctx.fillStyle = color;
+          ctx.fillText(char, x, y - fontSize);
+          
+          if (y > H && Math.random() > 0.975) drops[i] = 0;
+          drops[i]++;
+        }
+        ctx.globalAlpha = 1;
+        requestAnimationFrame(draw);
+      }
+      
+      window.addEventListener('resize', resize);
+      resize();
+      draw();
+    })();
+  </script>
+
+  <!-- ===== LOADING SCREEN ===== -->
+  <script>
+    (function() {
+      var screen = document.getElementById('loadingScreen');
+      var content = document.getElementById('mainContent');
+      var pct = document.getElementById('loadPct');
+      if (!screen || !content) return;
+
+      var hasVisited = sessionStorage.getItem('visited') === 'true';
+      if (hasVisited) {
+        screen.classList.add('hidden');
+        content.style.display = 'block';
+        return;
+      }
+
+      var val = 0;
+      var interval = setInterval(function() {
+        val += Math.floor(Math.random() * 6) + 2;
+        if (val > 99) { val = 100; clearInterval(interval); }
+        if (pct) pct.textContent = val + '%';
+      }, 180);
+
+      setTimeout(function() {
+        screen.classList.add('hidden');
+        content.style.display = 'block';
+        sessionStorage.setItem('visited', 'true');
+      }, 2200);
+    })();
+  </script>
+
+</body>
+</html>
