@@ -1,0 +1,72 @@
+/* ============================================
+   variables.css — HACKER THEME TOKENS
+   ============================================ */
+
+:root {
+    /* ===== HACKER COLORS ===== */
+    --hacker-green: #00ff41;
+    --hacker-green-dim: #00cc33;
+    --hacker-green-glow: rgba(0, 255, 65, 0.15);
+    --hacker-green-soft: rgba(0, 255, 65, 0.06);
+    --hacker-green-bright: #33ff66;
+    --hacker-bg: #0a0a0a;
+    --hacker-bg-card: #0f0f0f;
+    --hacker-bg-surface: #141414;
+    --hacker-border: rgba(0, 255, 65, 0.12);
+    --hacker-border-hover: rgba(0, 255, 65, 0.3);
+    --hacker-text: #d0ffd0;
+    --hacker-text-secondary: #80ff90;
+    --hacker-text-muted: #3a8a4a;
+    --hacker-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    --hacker-glow: 0 0 60px rgba(0, 255, 65, 0.06);
+
+    /* ===== SPACING ===== */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.25rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    --space-20: 5rem;
+    --space-24: 6rem;
+    --space-32: 8rem;
+
+    /* ===== TEXT SIZES ===== */
+    --text-2xs: 0.625rem;
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 2rem;
+    --text-4xl: 2.5rem;
+    --text-5xl: 3rem;
+    --text-6xl: 3.5rem;
+    --text-7xl: 4.5rem;
+
+    /* ===== FONTS ===== */
+    --font-mono: 'JetBrains Mono', 'Share Tech Mono', monospace;
+    --font-display: 'Orbitron', 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', 'Share Tech Mono', sans-serif;
+
+    /* ===== TRANSITIONS ===== */
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --fast: 150ms;
+    --base: 300ms;
+    --slow: 500ms;
+
+    /* ===== Z-INDEX ===== */
+    --z-low: 10;
+    --z-medium: 20;
+    --z-high: 30;
+    --z-overlay: 40;
+    --z-modal: 100;
+    --z-cursor: 999;
+    --z-loading: 9999;
+}
