@@ -12,7 +12,7 @@ export function SocialSidebar({ mode }) {
         { platform: 'mail', url: 'mailto:' + social.mail, label: 'Email' }
     ].filter((l) => l.url);
 
-    const avatar = mode === 'hacker' ? 'assets/profile/sketch-photo.png' : 'assets/profile/colorful-sketch.png';
+    const avatar = mode === 'hacker' ? '/assets/profile/sketch-photo.png' : '/assets/profile/colorful-sketch.png';
     const modeText = mode === 'hacker' ? 'Hacker' : 'Explore';
     const dotColor = mode === 'hacker' ? '#00ff41' : '#32C7FF';
 

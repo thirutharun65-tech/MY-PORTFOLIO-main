@@ -41,7 +41,7 @@ export function Footer({ mode }) {
                 <div className="footer-body">
                     <div className="footer-brand">
                         <div className="footer-avatar">
-                            <img src={mode === 'hacker' ? 'assets/profile/sketch-photo.png' : 'assets/profile/colorful-sketch.png'} alt="Thirumurugan C" />
+                            <img src={mode === 'hacker' ? '/assets/profile/sketch-photo.png' : '/assets/profile/colorful-sketch.png'} alt="Thirumurugan C" />
                         </div>
                         <div className="footer-brand-text">
                             <h3>Thirumurugan <span>C</span></h3>

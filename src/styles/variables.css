@@ -4,6 +4,7 @@
 
 :root {
     /* ===== HACKER COLORS ===== */
+    --accent-rgb: 0, 255, 65;
     --hacker-green: #00ff41;
     --hacker-green-dim: #00cc33;
     --hacker-green-glow: rgba(0, 255, 65, 0.15);
@@ -69,4 +70,24 @@
     --z-modal: 100;
     --z-cursor: 999;
     --z-loading: 9999;
+}
+
+/* ===== CURIOUS MODE (RED THEME) ===== */
+[data-mode="curious"] {
+    --accent-rgb: 255, 59, 59;
+    --hacker-green: #ff3b3b;
+    --hacker-green-dim: #cc2a2a;
+    --hacker-green-glow: rgba(255, 59, 59, 0.15);
+    --hacker-green-soft: rgba(255, 59, 59, 0.06);
+    --hacker-green-bright: #ff5c5c;
+    --hacker-bg: #0a0a0a;
+    --hacker-bg-card: #0f0f0f;
+    --hacker-bg-surface: #141414;
+    --hacker-border: rgba(255, 59, 59, 0.12);
+    --hacker-border-hover: rgba(255, 59, 59, 0.3);
+    --hacker-text: #ffd0d0;
+    --hacker-text-secondary: #ff8080;
+    --hacker-text-muted: #8a3a3a;
+    --hacker-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+    --hacker-glow: 0 0 60px rgba(255, 59, 59, 0.06);
 }
