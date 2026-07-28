@@ -1791,16 +1791,19 @@ section:first-of-type {
 
 .modal-project-hero {
     position: relative;
-    height: 260px;
+    max-height: 50vh;
     flex-shrink: 0;
     overflow: hidden;
     background: var(--hacker-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .modal-project-hero img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-height: 50vh;
+    object-fit: contain;
     filter: grayscale(0.3);
     transition: filter 0.5s ease;
 }
@@ -2589,8 +2592,8 @@ section:first-of-type {
         width: 92%;
         max-height: 90vh;
     }
-    .modal-project-hero {
-        height: 180px;
+    .modal-project-hero img {
+        max-height: 35vh;
     }
     .modal-project-details {
         padding: var(--space-4);
