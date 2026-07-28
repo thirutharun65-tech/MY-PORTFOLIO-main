@@ -108,8 +108,8 @@ export function About() {
                     <p className="section-desc">A glimpse into my journey, interests, and what drives me.</p>
                 </div>
                 <div className="about-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 'var(--space-12)', alignItems: 'center' }}>
-                    <div className="about-image-frame" style={{ width: '280px', height: '350px', margin: '0 auto', overflow: 'hidden', border: '1px solid var(--hacker-green)', borderRadius: '2px' }}>
-                        <img src="/assets/profile/about.png" alt="Thirumurugan C" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(0.3)' }} />
+                    <div className="about-image-frame" style={{ width: '280px', margin: '0 auto', overflow: 'hidden', border: '1px solid var(--hacker-green)', borderRadius: '2px' }}>
+                        <img src="/assets/profile/about.png" alt="Thirumurugan C" style={{ width: '100%', height: 'auto', display: 'block', filter: 'grayscale(0.3)' }} />
                     </div>
                     <div className="about-content">
                         <p className="about-desc" style={{ fontSize: 'var(--text-base)', color: 'var(--hacker-text-secondary)', lineHeight: '1.8', fontFamily: 'var(--font-body)' }}>
